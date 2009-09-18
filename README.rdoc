@@ -1,6 +1,12 @@
-= rubyonacid
+= Ruby On Acid
 
-Description goes here.
+A Ruby library for making trippy visuals.
+
+= Roadmap
+
+* A value emitter that evaluates the last value for 2 keys and modifies a third based on them.  (Example, change the size of rectangles based on their x and y coordinates.
+* View containers: Fire off one or more views and combine them with a series of generators, updating them several times each and saving output.
+
 
 == Note on Patches/Pull Requests
  
