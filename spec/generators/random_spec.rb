@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 require "shared_generator_specs"
-require "generators/random"
+require "rubyonacid/generators/random"
 
 describe RubyOnAcid::RandomGenerator do
   

@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 require "shared_generator_specs"
-require 'generators/sine'
+require 'rubyonacid/generators/sine'
 
 describe RubyOnAcid::SineGenerator do
   

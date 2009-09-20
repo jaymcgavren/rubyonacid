@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 require "shared_generator_specs"
-require 'generators/rinda'
+require 'rubyonacid/generators/rinda'
 
 describe RubyOnAcid::RindaGenerator do
   

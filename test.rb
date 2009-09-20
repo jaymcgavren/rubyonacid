@@ -1,13 +1,13 @@
 require 'rubygems'
 require 'wx'
-require 'generators/loop'
+require 'rubyonacid/generators/sine'
 
 class MyApp < Wx::App
 
  def on_init
 
    #TODO: Substitute your favorite Generator here!
-   @generator = RubyOnAcid::LoopGenerator.new
+   @generator = RubyOnAcid::SineGenerator.new
 
    @value = 0
    #Containing frame.

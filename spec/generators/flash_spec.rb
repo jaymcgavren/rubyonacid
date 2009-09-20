@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 require "shared_generator_specs"
-require 'generators/flash'
+require 'rubyonacid/generators/flash'
 
 describe RubyOnAcid::FlashGenerator do
   
