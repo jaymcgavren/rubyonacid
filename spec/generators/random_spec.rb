@@ -1,16 +1,16 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require "shared_generator_specs"
-require "rubyonacid/generators/random"
+require "shared_factory_specs"
+require "rubyonacid/factories/random"
 
 include RubyOnAcid
 
-describe RandomGenerator do
+describe RandomFactory do
   
   before :each do
-    @it = RandomGenerator.new
+    @it = RandomFactory.new
   end
   
-  it_should_behave_like "a generator"
+  it_should_behave_like "a factory"
   
   it "generates random numbers between 0 and 1" do
     @it.get_unit(:x).should_not == @it.get_unit(:x)

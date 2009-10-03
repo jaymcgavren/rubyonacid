@@ -1,8 +1,8 @@
-require 'generator'
+require 'rubyonacid/factory'
 
 module RubyOnAcid
 
-class FlashGenerator < Generator
+class FlashFactory < Factory
   
   attr_accessor :interval
   
@@ -23,9 +23,6 @@ class FlashGenerator < Generator
     #Return value.
     @values[key]
   end
-def within(key, minimum, maximum)
-  get_unit(key) * (maximum - minimum) + minimum
-end
 
 end
 

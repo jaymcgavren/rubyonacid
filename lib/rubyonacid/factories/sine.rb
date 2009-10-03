@@ -1,8 +1,8 @@
-require 'generator'
+require 'rubyonacid/factory'
 
 module RubyOnAcid
 
-class SineGenerator < Generator
+class SineFactory < Factory
   
   attr_accessor :interval
   
@@ -17,10 +17,6 @@ class SineGenerator < Generator
     (Math.sin(@counters[key]) + 1) / 2
   end
   
-def within(key, minimum, maximum)
-  get_unit(key) * (maximum - minimum) + minimum
-end
-
 end
 
 end

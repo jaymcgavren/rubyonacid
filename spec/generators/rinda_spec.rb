@@ -1,22 +1,22 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require "shared_generator_specs"
-require 'rubyonacid/generators/rinda'
+require "shared_factory_specs"
+require 'rubyonacid/factories/rinda'
 
 include RubyOnAcid
 
-describe RindaGenerator do
+describe RindaFactory do
   
   MARGIN = 0.01
   
   before :each do
-    @it = RindaGenerator.new
+    @it = RindaFactory.new
     @it.uri = "druby://127.0.0.1:9999"
     require 'rinda/rinda'
     DRb.start_service
     @space = Rinda::TupleSpaceProxy.new(DRbObject.new(nil, @it.uri)) 
   end
   
-  it_should_behave_like "a generator"
+  it_should_behave_like "a factory"
   
   it "gets keys from Rinda server" do
     @it.start_service

@@ -1,8 +1,8 @@
-require 'generator'
+require 'rubyonacid/factory'
 
 module RubyOnAcid
 
-class IncrementGenerator < Generator
+class IncrementFactory < Factory
   
   attr_accessor :interval
   def interval=(value)
@@ -24,9 +24,6 @@ class IncrementGenerator < Generator
     @counters[key] = 0.0 if @counters[key] < 0.0
     @counters[key]
   end
-def within(key, minimum, maximum)
-  get_unit(key) * (maximum - minimum) + minimum
-end
 
 end
 

@@ -1,9 +1,9 @@
 require 'rinda/rinda' 
-require 'generator'
+require 'rubyonacid/factory'
 
 module RubyOnAcid
 
-class RindaGenerator < Generator
+class RindaFactory < Factory
   
   attr_accessor :uri
   
@@ -21,10 +21,6 @@ class RindaGenerator < Generator
     key, value = @space.take([key, nil])
     value
   end
-
-def within(key, minimum, maximum)
-  get_unit(key) * (maximum - minimum) + minimum
-end
 
 end
 

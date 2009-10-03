@@ -3,13 +3,13 @@
 require 'rubygems'
 require 'RMagick'
 
-require 'rubyonacid/generators/meta'
-require 'rubyonacid/generators/flash'
-require 'rubyonacid/generators/increment'
-require 'rubyonacid/generators/loop'
-require 'rubyonacid/generators/random'
-require 'rubyonacid/generators/sine'
-require 'rubyonacid/generators/skip'
+require 'rubyonacid/factories/meta'
+require 'rubyonacid/factories/flash'
+require 'rubyonacid/factories/increment'
+require 'rubyonacid/factories/loop'
+require 'rubyonacid/factories/random'
+require 'rubyonacid/factories/sine'
+require 'rubyonacid/factories/skip'
 
 canvas = Magick::Image.new(240, 300,
               Magick::HatchFill.new('white','lightcyan2'))

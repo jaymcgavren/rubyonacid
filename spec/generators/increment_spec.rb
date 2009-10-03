@@ -1,18 +1,18 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require "shared_generator_specs"
-require 'rubyonacid/generators/increment'
+require "shared_factory_specs"
+require 'rubyonacid/factories/increment'
 
 include RubyOnAcid
 
-describe IncrementGenerator do
+describe IncrementFactory do
   
   MARGIN = 0.01
   
   before :each do
-    @it = IncrementGenerator.new
+    @it = IncrementFactory.new
   end
   
-  it_should_behave_like "a generator"
+  it_should_behave_like "a factory"
   
   it "Stops at 1 if increment is positive" do
     @it.interval = 0.3

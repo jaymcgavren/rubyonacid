@@ -1,8 +1,8 @@
-require 'rubyonacid/generator'
+require 'rubyonacid/factory'
 
 include RubyOnAcid
 
-shared_examples_for "a generator" do
+shared_examples_for "a factory" do
   
   describe "#get_unit" do
     it "returns a value between 0.0 and 1.0 (inclusive) for a key" do

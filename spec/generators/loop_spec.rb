@@ -1,18 +1,18 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require "shared_generator_specs"
-require 'rubyonacid/generators/loop'
+require "shared_factory_specs"
+require 'rubyonacid/factories/loop'
 
 include RubyOnAcid
 
-describe LoopGenerator do
+describe LoopFactory do
   
   MARGIN = 0.01
   
   before :each do
-    @it = LoopGenerator.new
+    @it = LoopFactory.new
   end
   
-  it_should_behave_like "a generator"
+  it_should_behave_like "a factory"
   
   it "Loops to 0 if increment is positive" do
     @it.interval = 0.3

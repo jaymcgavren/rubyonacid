@@ -1,8 +1,8 @@
-require 'generator'
+require 'rubyonacid/factory'
 
 module RubyOnAcid
 
-class SkipGenerator < Generator
+class SkipFactory < Factory
   
   attr_accessor :odds
   
@@ -15,10 +15,7 @@ class SkipGenerator < Generator
   def get_unit(key)
     rand < @odds ? 0.0 : 1.0
   end
-def within(key, minimum, maximum)
-  get_unit(key) * (maximum - minimum) + minimum
-end
-  
+
 end
 
 end

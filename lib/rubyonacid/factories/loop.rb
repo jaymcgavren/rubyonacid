@@ -1,8 +1,8 @@
-require 'generator'
+require 'rubyonacid/factory'
 
 module RubyOnAcid
 
-class LoopGenerator < Generator
+class LoopFactory < Factory
   
   attr_accessor :interval
   def interval=(value)
@@ -22,9 +22,6 @@ class LoopGenerator < Generator
     @counters[key] = @counters[key] + 1.0 if @counters[key] < 0
     @counters[key]
   end
-def within(key, minimum, maximum)
-  get_unit(key) * (maximum - minimum) + minimum
-end
 
 end
 
