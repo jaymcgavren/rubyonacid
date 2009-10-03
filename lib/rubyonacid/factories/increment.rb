@@ -11,10 +11,10 @@ class IncrementFactory < Factory
     @counters.each_key{|k| @counters[k] = @start_value}
   end
   
-  def initialize
+  def initialize(interval = 0.001)
     @start_value = 0.0
     @counters = Hash.new{|h,k| h[k] = @start_value}
-    @interval = 0.0001
+    @interval = interval
   end
   
   #Increment counter for key and get its sine, then scale it between 0 and 1.

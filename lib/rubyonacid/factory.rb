@@ -7,6 +7,11 @@ class Factory
     get_unit(key) * (maximum - minimum) + minimum
   end
   
+  #Returns true if get_unit(key) returns greater than 0.5.
+  def boolean(key)
+    get_unit(key) >= 0.5
+  end
+  
 end
 
 end

@@ -10,9 +10,9 @@ class LoopFactory < Factory
     @interval = value
   end
   
-  def initialize
+  def initialize(interval = 0.01)
     @counters = Hash.new{|h,k| h[k] = 0}
-    @interval = 0.0001
+    @interval = interval
   end
   
   #Increment counter for key, looping it around to opposite side if it exits boundary.

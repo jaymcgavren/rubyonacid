@@ -4,10 +4,11 @@ module RubyOnAcid
 
 class SkipFactory < Factory
   
+  #The percentage odds that the factory will return 0 instead of 1.
   attr_accessor :odds
   
-  def initialize
-    @odds = 0.1
+  def initialize(odds = 0.1)
+    @odds = odds
   end
   
   #If a random number between 0 and 1 is less than the assigned odds value, will return 0 (a "skip").
