@@ -12,9 +12,12 @@ class SkipGenerator < Generator
   
   #If a random number between 0 and 1 is less than the assigned odds value, will return 0 (a "skip").
   #Otherwise returns 1.
-  def get(key)
+  def get_unit(key)
     rand < @odds ? 0.0 : 1.0
   end
+def within(key, minimum, maximum)
+  get_unit(key) * (maximum - minimum) + minimum
+end
   
 end
 

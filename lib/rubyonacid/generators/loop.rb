@@ -16,13 +16,16 @@ class LoopGenerator < Generator
   end
   
   #Increment counter for key, looping it around to opposite side if it exits boundary.
-  def get(key)
+  def get_unit(key)
     @counters[key] += @interval
     @counters[key] = @counters[key] - 1.0 if @counters[key] > 1
     @counters[key] = @counters[key] + 1.0 if @counters[key] < 0
     @counters[key]
   end
-  
+def within(key, minimum, maximum)
+  get_unit(key) * (maximum - minimum) + minimum
+end
+
 end
 
 end

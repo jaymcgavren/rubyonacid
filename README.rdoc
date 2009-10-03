@@ -6,6 +6,7 @@ A Ruby library for making trippy visuals.
 
 * A value emitter that evaluates the last value for 2 keys and modifies a third based on them.  (Example, change the size of rectangles based on their x and y coordinates.
 * View containers: Fire off one or more views and combine them with a series of generators, updating them several times each and saving output.
+* Skip Generator: Add probability matrix [0.5, 0.9, 0.1...] that causes get_unit() to return true every time rand() is > given value. Also add mask value (0.1, 0.9), etc, that is added to random value to increase likelihood of returning true.
 
 
 == Note on Patches/Pull Requests

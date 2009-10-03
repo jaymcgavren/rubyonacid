@@ -17,11 +17,15 @@ class RindaGenerator < Generator
   end
   
   #Get key from Rinda server.
-  def get(key)
+  def get_unit(key)
     key, value = @space.take([key, nil])
     value
   end
-  
+
+def within(key, minimum, maximum)
+  get_unit(key) * (maximum - minimum) + minimum
+end
+
 end
 
 end

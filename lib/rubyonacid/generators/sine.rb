@@ -12,11 +12,15 @@ class SineGenerator < Generator
   end
   
   #Increment counter for key and get its sine, then scale it between 0 and 1.
-  def get(key)
+  def get_unit(key)
     @counters[key] += @interval
     (Math.sin(@counters[key]) + 1) / 2
   end
   
+def within(key, minimum, maximum)
+  get_unit(key) * (maximum - minimum) + minimum
+end
+
 end
 
 end

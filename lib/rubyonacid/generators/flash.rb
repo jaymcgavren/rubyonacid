@@ -13,7 +13,7 @@ class FlashGenerator < Generator
   end
   
   #If key is over threshold, flip to other value and reset counter.
-  def get(key)
+  def get_unit(key)
     if @counters[key] >= @interval
       @values[key] = (@values[key] == 1.0 ? 0.0 : 1.0)
       @counters[key] = 0
@@ -23,7 +23,10 @@ class FlashGenerator < Generator
     #Return value.
     @values[key]
   end
-  
+def within(key, minimum, maximum)
+  get_unit(key) * (maximum - minimum) + minimum
+end
+
 end
 
 end

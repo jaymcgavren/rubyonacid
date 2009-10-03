@@ -1,13 +1,24 @@
 require 'rubygems'
 require 'wx'
+require 'rubyonacid/generators/meta'
+require 'rubyonacid/generators/flash'
+require 'rubyonacid/generators/increment'
+require 'rubyonacid/generators/loop'
+require 'rubyonacid/generators/random'
 require 'rubyonacid/generators/sine'
+require 'rubyonacid/generators/skip'
 
 class MyApp < Wx::App
 
  def on_init
 
-   #TODO: Substitute your favorite Generator here!
-   @generator = RubyOnAcid::SineGenerator.new
+   @g = RubyOnAcid::MetaGenerator.new
+   @g.generators << RubyOnAcid::FlashGenerator.new
+   @g.generators << RubyOnAcid::IncrementGenerator.new
+   @g.generators << RubyOnAcid::LoopGenerator.new
+   @g.generators << RubyOnAcid::RandomGenerator.new
+   @g.generators << RubyOnAcid::SineGenerator.new
+   @g.generators << RubyOnAcid::SkipGenerator.new
 
    @value = 0
    #Containing frame.
@@ -25,7 +36,7 @@ class MyApp < Wx::App
 
    @i = 0
    
-       #Animate periodically.
+   #Animate periodically.
    t = Wx::Timer.new(self, 55)
    evt_timer(55) {animate(window, buffer)}
    t.start(33)
@@ -33,7 +44,7 @@ class MyApp < Wx::App
  end
 
  def animate(window, buffer)
-     green_pen = Wx::Pen.new(Wx::Colour.new((get(:red) * 255).to_i, 255, (get(:blue) * 255).to_i), 3)
+     green_pen = Wx::Pen.new(Wx::Colour.new(within(:red, 0, 255).to_i, 255, within(:blue, 0, 255).to_i), 3)
      black_pen = Wx::Pen.new(Wx::Colour.new(0, 0, 0), 0)
      buffer.draw do |surface|
        #Clear screen.
@@ -45,7 +56,7 @@ class MyApp < Wx::App
        surface.pen.cap = Wx::CAP_ROUND
        300.times do |j|
          x = @i + j
-         surface.draw_line(x, (get(:y) * 300).to_i, (get(:x2) * 300).to_i, (get(:y2) * 300).to_i)
+         surface.draw_line(x, within(:y, 0, 300).to_i, within(:x2, 0, 300).to_i, within(:y2, 0, 300).to_i)
        end
      end
      #Update screen.
@@ -61,8 +72,8 @@ class MyApp < Wx::App
    end
  end
  
- def get(key)
-    value = @generator.get(key)
+ def within(key, minimum, maximum)
+    value = @g.within(key, minimum, maximum)
     value
  end
 
