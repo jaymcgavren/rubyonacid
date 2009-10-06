@@ -28,7 +28,7 @@ class MyApp < Wx::App
     @f.factories << RubyOnAcid::SineFactory.new(0.1)
     @f.factories << RubyOnAcid::SineFactory.new(-0.1)
     
-    #This is an additional skip factory, in charge of randomly resetting the meta factory.
+    #A skip factory, in charge of randomly resetting the meta factory.
     @resetter = RubyOnAcid::SkipFactory.new(0.999)
     
     #Containing frame.
