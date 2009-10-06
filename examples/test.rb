@@ -16,13 +16,19 @@ class MyApp < Wx::App
   HEIGHT = 480
 
   def on_init
- 
-    @f = RubyOnAcid::MetaFactory.new
-    @f.factories << RubyOnAcid::LoopFactory.new
-    @f.factories << RubyOnAcid::RandomFactory.new
-    @f.factories << RubyOnAcid::SineFactory.new
-    @f.factories << RubyOnAcid::SkipFactory.new
     
+    #The MetaFactory assigns factories to requested value types.
+    @f = RubyOnAcid::MetaFactory.new
+    #Loop factories loop from 0.0 to 1.0 (or 1.0 to 0.0 if the increment value is negative).
+    @f.factories << RubyOnAcid::LoopFactory.new(0.01)
+    @f.factories << RubyOnAcid::LoopFactory.new(-0.01)
+    #Random factories generate random values.
+    @f.factories << RubyOnAcid::RandomFactory.new
+    #Sine factories produce a "wave" pattern.
+    @f.factories << RubyOnAcid::SineFactory.new(0.1)
+    @f.factories << RubyOnAcid::SineFactory.new(-0.1)
+    
+    #This is an additional skip factory, in charge of randomly resetting the meta factory.
     @resetter = RubyOnAcid::SkipFactory.new(0.999)
     
     #Containing frame.

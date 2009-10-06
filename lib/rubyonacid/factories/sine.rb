@@ -6,9 +6,9 @@ class SineFactory < Factory
   
   attr_accessor :interval
   
-  def initialize
+  def initialize(interval = 0.1)
     @counters = Hash.new{|h,k| h[k] = 0}
-    @interval = 0.1
+    @interval = interval
   end
   
   #Increment counter for key and get its sine, then scale it between 0 and 1.
