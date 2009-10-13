@@ -7,8 +7,9 @@ class RindaFactory < Factory
   
   attr_accessor :uri
   
-  def initialize
-    @uri = "druby://127.0.0.1:2243" #2243 == ACID
+  #Takes the URI to connect to.  Default is "druby://127.0.0.1:12243" (12243 == 1ACID).
+  def initialize(uri = "druby://127.0.0.1:12243")
+    @uri = uri
   end
   
   def start_service
@@ -18,7 +19,7 @@ class RindaFactory < Factory
   
   #Get key from Rinda server.
   def get_unit(key)
-    key, value = @space.take([key, nil])
+    key, value = @space.take([key, Float])
     value
   end
 
