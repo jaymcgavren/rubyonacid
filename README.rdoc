@@ -2,6 +2,12 @@
 
 A Ruby library for making trippy visuals.
 
+
+= Factories
+
+The factory is the core concept of Ruby On Acid.  You create a factory of a particular type, and then anywhere in your code that you need a value within a certain range, you get it from the factory.  For example, if you need x and y coordinates for drawing on a 800 x 600 window, you would tell a factory that you need a value for :x from 0 to 800, and a value for :y from 0 to 600.  If you later wanted to change drawing patterns, you could simply swap out factories.
+
+
 = Roadmap
 
 * A value emitter that evaluates the last value for 2 keys and modifies a third based on them.  (Example, change the size of rectangles based on their x and y coordinates.
@@ -9,7 +15,7 @@ A Ruby library for making trippy visuals.
 * Skip Factory: Add probability matrix [0.5, 0.9, 0.1...] that causes get_unit() to return true every time rand() is > given value. Also add mask value (0.1, 0.9), etc, that is added to random value to increase likelihood of returning true.
 
 
-== Note on Patches/Pull Requests
+= Note on Patches/Pull Requests
  
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -20,6 +26,7 @@ A Ruby library for making trippy visuals.
    bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Copyright
+
+= Copyright
 
 Copyright (c) 2009 Jay McGavren. See LICENSE for details.
