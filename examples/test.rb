@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'wx'
 require 'rubyonacid/factories/meta'
+require 'rubyonacid/factories/constant'
 require 'rubyonacid/factories/flash'
 require 'rubyonacid/factories/increment'
 require 'rubyonacid/factories/loop'
@@ -20,13 +21,15 @@ class MyApp < Wx::App
     #The MetaFactory assigns factories to requested value types.
     @f = RubyOnAcid::MetaFactory.new
     #Loop factories loop from 0.0 to 1.0 (or 1.0 to 0.0 if the increment value is negative).
-    @f.factories << RubyOnAcid::LoopFactory.new(0.01)
-    @f.factories << RubyOnAcid::LoopFactory.new(-0.01)
+    @f.factory_pool << RubyOnAcid::LoopFactory.new(0.01)
+    # @f.factory_pool << RubyOnAcid::LoopFactory.new(-0.01)
     #Random factories generate random values.
-    @f.factories << RubyOnAcid::RandomFactory.new
+    # @f.factory_pool << RubyOnAcid::RandomFactory.new
+    #Constant factories always return the same value,
+    @f.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
     #Sine factories produce a "wave" pattern.
-    @f.factories << RubyOnAcid::SineFactory.new(0.1)
-    @f.factories << RubyOnAcid::SineFactory.new(-0.1)
+    # @f.factory_pool << RubyOnAcid::SineFactory.new(0.1)
+    @f.factory_pool << RubyOnAcid::SineFactory.new(-0.1)
     
     #A skip factory, in charge of randomly resetting the meta factory.
     @resetter = RubyOnAcid::SkipFactory.new(0.999)
