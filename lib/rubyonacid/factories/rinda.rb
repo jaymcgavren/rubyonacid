@@ -7,8 +7,8 @@ class RindaFactory < Factory
   
   attr_accessor :uri
   
-  #Takes the URI to connect to.  Default is "druby://127.0.0.1:12243" (12243 == 1ACID).
-  def initialize(uri = "druby://127.0.0.1:12243")
+  #Takes the URI to connect to.  Default is "druby://127.0.0.1:7632" (7632 == RNDA).
+  def initialize(uri = "druby://127.0.0.1:7632")
     @uri = uri
   end
   
