@@ -4,6 +4,9 @@ require 'rubyonacid/factories/meta'
 require 'rubyonacid/factories/constant'
 require 'rubyonacid/factories/flash'
 require 'rubyonacid/factories/loop'
+require 'rubyonacid/factories/modulo'
+require 'rubyonacid/factories/random'
+require 'rubyonacid/factories/repeat'
 require 'rubyonacid/factories/sine'
 require 'rubyonacid/factories/skip'
 
@@ -15,6 +18,8 @@ class MyApp < Wx::App
   HEIGHT = 480
 
   def on_init
+    
+    random_factory = RubyOnAcid::RandomFactory.new
     
     #The MetaFactory assigns factories to requested value types.
     @f = RubyOnAcid::MetaFactory.new
@@ -32,9 +37,22 @@ class MyApp < Wx::App
     @f.factory_pool << RubyOnAcid::SineFactory.new(-0.1)
     @f.factory_pool << RubyOnAcid::SineFactory.new(0.01)
     @f.factory_pool << RubyOnAcid::SineFactory.new(-0.01)
+    @f.factory_pool << RubyOnAcid::RepeatFactory.new(
+      RubyOnAcid::LoopFactory.new(random_factory.within(:increment, -0.1, 0.1)),
+      random_factory.within(:interval, 2, 100)
+    )
+    # @f.factory_pool << RubyOnAcid::RepeatFactory.new(
+    #   RubyOnAcid::RandomFactory.new,
+    #   random_factory.within(:interval, 2, 1000)
+    # )
+    @f.factory_pool << RubyOnAcid::RepeatFactory.new(
+      RubyOnAcid::SineFactory.new(random_factory.within(:increment, -0.1, 0.1)),
+      random_factory.within(:interval, 2, 100)
+    )
+    @f.factory_pool << RubyOnAcid::ModuloFactory.new(RubyOnAcid::LoopFactory.new(0.00001))
     
     #A skip factory, in charge of randomly resetting the meta factory.
-    @resetter = RubyOnAcid::SkipFactory.new(0.999)
+    @resetter = RubyOnAcid::SkipFactory.new(0.9999)
     
     #Containing frame.
     frame = Wx::Frame.new(nil, :size => [WIDTH, HEIGHT])
