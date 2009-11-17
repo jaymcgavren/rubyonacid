@@ -11,6 +11,7 @@ class LoopFactory < Factory
   end
   
   def initialize(interval = 0.01)
+    super
     @counters = {}
     @interval = interval
   end

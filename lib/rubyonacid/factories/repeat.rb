@@ -11,6 +11,7 @@ class RepeatFactory < Factory
   attr_accessor :repeat_count
   
   def initialize(source_factory = nil, repeat_count = 2)
+    super
     @source_factory = source_factory
     @repeat_count = repeat_count
     @repeat_counts = {}

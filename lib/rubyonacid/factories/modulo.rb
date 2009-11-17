@@ -9,6 +9,7 @@ class ModuloFactory < Factory
   attr_accessor :source_factory
   
   def initialize(source_factory = nil)
+    super
     @source_factory = source_factory
     @prior_values = {}
   end

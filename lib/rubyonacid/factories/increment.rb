@@ -12,6 +12,7 @@ class IncrementFactory < Factory
   end
   
   def initialize(interval = 0.001)
+    super
     @start_value = 0.0
     @counters = {}
     @interval = interval

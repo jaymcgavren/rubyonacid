@@ -7,6 +7,7 @@ class SineFactory < Factory
   attr_accessor :interval
   
   def initialize(interval = 0.1)
+    super
     @counters = {}
     @interval = interval
   end

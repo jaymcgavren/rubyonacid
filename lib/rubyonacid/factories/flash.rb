@@ -7,6 +7,7 @@ class FlashFactory < Factory
   attr_accessor :interval
   
   def initialize(interval = 3)
+    super
     @counters = {}
     @values = {}
     @interval = interval

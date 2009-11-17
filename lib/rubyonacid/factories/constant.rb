@@ -11,6 +11,7 @@ class ConstantFactory < Factory
   end
   
   def initialize(value = 0.5)
+    super
     @value = value
   end
   

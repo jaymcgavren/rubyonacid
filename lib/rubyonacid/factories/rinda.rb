@@ -12,6 +12,7 @@ class RindaFactory < Factory
   attr_accessor :uri
   
   def initialize(uri = "druby://127.0.0.1:7632", timeout = 0)
+    super
     @uri = uri
     @timeout = timeout
     @prior_values = {}

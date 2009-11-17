@@ -8,6 +8,7 @@ class SkipFactory < Factory
   attr_accessor :odds
   
   def initialize(odds = 0.1)
+    super
     @odds = odds
   end
   

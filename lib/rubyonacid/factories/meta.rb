@@ -8,6 +8,7 @@ class MetaFactory < Factory
   attr_accessor :assigned_factories
   
   def initialize(factory_pool = [])
+    super
     @factory_pool = factory_pool
     @assigned_factories = {}
   end
