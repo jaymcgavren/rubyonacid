@@ -80,10 +80,10 @@ class MyApp < Wx::App
            @f.within(:width, 1, 5).to_i
        )
        surface.draw_line(
-          @f.within(:x, 0, WIDTH).to_i,
-          @f.within(:y, 0, HEIGHT).to_i,
-          @f.within(:x2, 0, WIDTH).to_i,
-          @f.within(:y2, 0, HEIGHT).to_i
+          @f.get(:x, :max => WIDTH).to_i,
+          @f.get(:y, :max => HEIGHT).to_i,
+          @f.get(:x2, :max => WIDTH).to_i,
+          @f.get(:y2, :max => HEIGHT).to_i
        )
      end
      @f.reset_assignments if @resetter.boolean(:reset)
