@@ -61,7 +61,6 @@ shared_examples_for "a factory" do
     end
     it "uses a default maximum of 1.0" do
       @it.get(:a).should <= 1.0
-      @it.get(:a, :min => -1.0).should <= 0.0
     end
     it "keeps the minimum and maximum between calls for a given key" do
       @it.get(:a, :max => 2.0).should <= 2.0
