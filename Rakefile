@@ -12,7 +12,6 @@ begin
     gem.authors = ["Jay McGavren"]
     gem.rubyforge_project = "rubyonacid"
     gem.add_development_dependency "rspec"
-    gem.add_development_dependency "cucumber"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::RubyforgeTasks.new do |rubyforge|
