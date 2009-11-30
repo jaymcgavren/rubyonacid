@@ -10,9 +10,12 @@ describe RindaFactory do
   
   before :each do
     @it = RindaFactory.new
-    @it.uri = "druby://127.0.0.1:9999"
+    uri = "druby://127.0.0.1:9999"
+    @it.uri = uri
     require 'rinda/rinda'
+    require 'rinda/tuplespace'
     DRb.start_service
+    DRb.start_service(uri, Rinda::TupleSpace.new) 
     @space = Rinda::TupleSpaceProxy.new(DRbObject.new(nil, @it.uri)) 
   end
   
