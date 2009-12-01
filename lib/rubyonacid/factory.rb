@@ -24,6 +24,15 @@ class Factory
     get_unit(key) >= 0.5
   end
   
+  #Calls get_unit with key to get value between 0.0 and 1.0, then converts that value to an index within the given list of choices.
+  #choices can be an array or an argument list of arbitrary size.
+  def choose(key, *choices)
+    all_choices = choices.flatten
+    index = (get_unit(key) * all_choices.length).floor
+    index = all_choices.length - 1 if index > all_choices.length - 1
+    all_choices[index]
+  end
+  
 end
 
 end

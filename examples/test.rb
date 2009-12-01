@@ -19,38 +19,8 @@ class MyApp < Wx::App
 
   def on_init
     
-    random_factory = RubyOnAcid::RandomFactory.new
-    
-    #The MetaFactory assigns factories to requested value types.
-    @f = RubyOnAcid::MetaFactory.new
-    #Loop factories loop from 0.0 to 1.0 (or 1.0 to 0.0 if the increment value is negative).
-    @f.factory_pool << RubyOnAcid::LoopFactory.new(0.01)
-    @f.factory_pool << RubyOnAcid::LoopFactory.new(-0.01)
-    @f.factory_pool << RubyOnAcid::LoopFactory.new(0.001)
-    @f.factory_pool << RubyOnAcid::LoopFactory.new(-0.001)
-    #Constant factories always return the same value,
-    @f.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
-    @f.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
-    @f.factory_pool << RubyOnAcid::FlashFactory.new(rand(100))
-    #Sine factories produce a "wave" pattern.
-    @f.factory_pool << RubyOnAcid::SineFactory.new(0.1)
-    @f.factory_pool << RubyOnAcid::SineFactory.new(-0.1)
-    @f.factory_pool << RubyOnAcid::SineFactory.new(0.01)
-    @f.factory_pool << RubyOnAcid::SineFactory.new(-0.01)
-    @f.factory_pool << RubyOnAcid::RepeatFactory.new(
-      RubyOnAcid::LoopFactory.new(random_factory.within(:increment, -0.1, 0.1)),
-      random_factory.within(:interval, 2, 100)
-    )
-    # @f.factory_pool << RubyOnAcid::RepeatFactory.new(
-    #   RubyOnAcid::RandomFactory.new,
-    #   random_factory.within(:interval, 2, 1000)
-    # )
-    @f.factory_pool << RubyOnAcid::RepeatFactory.new(
-      RubyOnAcid::SineFactory.new(random_factory.within(:increment, -0.1, 0.1)),
-      random_factory.within(:interval, 2, 100)
-    )
-    @f.factory_pool << RubyOnAcid::ModuloFactory.new(RubyOnAcid::LoopFactory.new(0.00001))
-    
+    @f = create_factory
+        
     #A skip factory, in charge of randomly resetting the meta factory.
     @resetter = RubyOnAcid::SkipFactory.new(0.9999)
     
@@ -63,30 +33,108 @@ class MyApp < Wx::App
  
     #Animate periodically.
     t = Wx::Timer.new(self, 55)
-    evt_timer(55) {animate(window)}
+    evt_timer(55) do
+      window.paint{|surface| render(surface)}
+      @f.reset_assignments if @resetter.boolean(:reset)
+    end
     t.start(33)
  
   end
+  
+  def create_factory
+    random_factory = RubyOnAcid::RandomFactory.new
+    
+    #The MetaFactory assigns factories to requested value types.
+    meta_factory = RubyOnAcid::MetaFactory.new
+    #Loop factories loop from 0.0 to 1.0 (or 1.0 to 0.0 if the increment value is negative).
+    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(0.01)
+    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(-0.01)
+    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(0.001)
+    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(-0.001)
+    #Constant factories always return the same value,
+    meta_factory.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
+    meta_factory.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
+    meta_factory.factory_pool << RubyOnAcid::FlashFactory.new(rand(100))
+    #Sine factories produce a "wave" pattern.
+    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(0.1)
+    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(-0.1)
+    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(0.01)
+    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(-0.01)
+    meta_factory.factory_pool << RubyOnAcid::RepeatFactory.new(
+      RubyOnAcid::LoopFactory.new(random_factory.within(:increment, -0.1, 0.1)),
+      random_factory.within(:interval, 2, 100)
+    )
+    meta_factory.factory_pool << RubyOnAcid::RepeatFactory.new(
+      RubyOnAcid::SineFactory.new(random_factory.within(:increment, -0.1, 0.1)),
+      random_factory.within(:interval, 2, 100)
+    )
+    meta_factory.factory_pool << RubyOnAcid::ModuloFactory.new(RubyOnAcid::LoopFactory.new(0.00001))
+    
+    meta_factory
+  end
  
-  def animate(window)
-     window.paint do |surface|
-       surface.pen = Wx::Pen.new(
-           Wx::Colour.new(
-             @f.within(:red, 0, 255).to_i,
-             @f.within(:green, 0, 255).to_i,
-             @f.within(:blue, 0, 255).to_i,
-             @f.within(:alpha, 50, 255).to_i
-           ),
-           @f.within(:width, 1, 5).to_i
-       )
-       surface.draw_line(
-          @f.get(:x, :max => WIDTH).to_i,
-          @f.get(:y, :max => HEIGHT).to_i,
-          @f.get(:x2, :max => WIDTH).to_i,
-          @f.get(:y2, :max => HEIGHT).to_i
-       )
-     end
-     @f.reset_assignments if @resetter.boolean(:reset)
+  def render(surface)
+    color = Wx::Colour.new(
+      @f.get(:red, :max => 255).to_i,
+      @f.get(:green, :max => 255).to_i,
+      @f.get(:blue, :max => 255).to_i,
+      @f.get(:alpha, :min => 50, :max => 200).to_i
+    )
+    surface.pen = Wx::Pen.new(color, @f.within(:width, 1, 5).to_i)
+    surface.brush = Wx::Brush.new(color, Wx::SOLID)
+    case @f.choose(:shape,
+      :arc,
+      :polygon,
+      :line,
+      # :rectangle,
+      :circle,
+      :spline
+    )
+    when :line
+      surface.draw_line(
+        @f.get(:x0, :max => WIDTH).to_i,
+        @f.get(:y0, :max => HEIGHT).to_i,
+        @f.get(:x1, :max => WIDTH).to_i,
+        @f.get(:y1, :max => HEIGHT).to_i
+      )
+    when :rectangle
+      surface.draw_rectangle(
+        @f.get(:x0, :max => WIDTH).to_i,
+        @f.get(:y0, :max => HEIGHT).to_i,
+        @f.get(:x1, :max => WIDTH).to_i,
+        @f.get(:y1, :max => HEIGHT).to_i
+      )
+    when :circle
+      surface.draw_circle(
+        @f.get(:x0, :max => WIDTH).to_i,
+        @f.get(:y0, :max => HEIGHT).to_i,
+        @f.get(:width, :max => WIDTH).to_i
+      )
+    when :arc
+      surface.draw_elliptic_arc(
+        @f.get(:x0, :max => WIDTH).to_i,
+        @f.get(:y0, :max => HEIGHT).to_i,
+        @f.get(:width, :max => WIDTH).to_i,
+        @f.get(:height, :max => HEIGHT).to_i,
+        @f.get(:arc_start, :max => 360).to_i,
+        @f.get(:arc_end, :max => 360).to_i
+      )
+    when :polygon
+      surface.draw_polygon(make_point_array)
+    when :spline
+      surface.draw_spline(make_point_array)
+    end
+  end
+  
+  def make_point_array
+    points = []
+    @f.get(:points, :min => 3, :max => 6).to_i.times do |i|
+      points << Wx::Point.new(
+        @f.get("x#{i}".to_sym, :max => WIDTH).to_i,
+        @f.get("y#{i}".to_sym, :max => HEIGHT).to_i
+      )
+    end
+    points
   end
 
 end
