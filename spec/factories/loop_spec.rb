@@ -6,7 +6,6 @@ include RubyOnAcid
 
 describe LoopFactory do
   
-  MARGIN = 0.01
   
   before :each do
     @it = LoopFactory.new

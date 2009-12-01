@@ -5,7 +5,6 @@ include RubyOnAcid
 
 describe ModuloFactory do
   
-  MARGIN = 0.01
   
   before :each do
     @it = ModuloFactory.new

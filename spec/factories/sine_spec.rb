@@ -6,7 +6,6 @@ include RubyOnAcid
 
 describe SineFactory do
   
-  MARGIN = 0.01
   
   before :each do
     @it = SineFactory.new

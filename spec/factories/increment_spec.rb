@@ -6,7 +6,6 @@ include RubyOnAcid
 
 describe IncrementFactory do
   
-  MARGIN = 0.01
   
   before :each do
     @it = IncrementFactory.new

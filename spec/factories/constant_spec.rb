@@ -6,7 +6,6 @@ include RubyOnAcid
 
 describe ConstantFactory do
   
-  MARGIN = 0.01
   
   before :each do
     @it = ConstantFactory.new

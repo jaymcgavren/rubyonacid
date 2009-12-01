@@ -6,7 +6,6 @@ include RubyOnAcid
 
 describe SkipFactory do
   
-  MARGIN = 0.01
   
   before :each do
     @it = SkipFactory.new

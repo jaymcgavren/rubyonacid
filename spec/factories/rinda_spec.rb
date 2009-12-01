@@ -6,7 +6,6 @@ include RubyOnAcid
 
 describe RindaFactory do
   
-  MARGIN = 0.01
   
   before :each do
     @it = RindaFactory.new
@@ -27,6 +26,14 @@ describe RindaFactory do
     @it.get_unit(:x).should == 0.5
     @space.write([:y, 0.6])
     @it.get_unit(:x).should == 0.6
+  end
+  
+  it "gets keys from a backup factory when it cannot retrieve values via Rinda" do
+    @it.start_service
+    default_factory = mock('Factory')
+    default_factory.stub!(:get_unit).and_return(0.74)
+    @it.default_factory = default_factory
+    @it.get_unit(:a).should == 0.74
   end
   
 end
