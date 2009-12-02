@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'wx'
 require 'rubyonacid/factories/meta'
+require 'rubyonacid/factories/combination'
 require 'rubyonacid/factories/constant'
 require 'rubyonacid/factories/flash'
 require 'rubyonacid/factories/loop'
@@ -22,7 +23,7 @@ class MyApp < Wx::App
     @f = create_factory
         
     #A skip factory, in charge of randomly resetting the meta factory.
-    @resetter = RubyOnAcid::SkipFactory.new(0.9999)
+    @resetter = RubyOnAcid::SkipFactory.new(0.999)
     
     #Containing frame.
     frame = Wx::Frame.new(nil, :size => [WIDTH, HEIGHT])
@@ -41,37 +42,50 @@ class MyApp < Wx::App
  
   end
   
+  
   def create_factory
+    
     random_factory = RubyOnAcid::RandomFactory.new
     
-    #The MetaFactory assigns factories to requested value types.
-    meta_factory = RubyOnAcid::MetaFactory.new
+    source_factories = []
     #Loop factories loop from 0.0 to 1.0 (or 1.0 to 0.0 if the increment value is negative).
-    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(0.01)
-    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(-0.01)
-    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(0.001)
-    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(-0.001)
+    source_factories << RubyOnAcid::LoopFactory.new(0.01)
+    source_factories << RubyOnAcid::LoopFactory.new(-0.01)
+    source_factories << RubyOnAcid::LoopFactory.new(0.001)
+    source_factories << RubyOnAcid::LoopFactory.new(-0.001)
     #Constant factories always return the same value,
-    meta_factory.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
-    meta_factory.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
-    meta_factory.factory_pool << RubyOnAcid::FlashFactory.new(rand(100))
+    source_factories << RubyOnAcid::ConstantFactory.new(rand)
+    source_factories << RubyOnAcid::ConstantFactory.new(rand)
+    source_factories << RubyOnAcid::FlashFactory.new(rand(100))
     #Sine factories produce a "wave" pattern.
-    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(0.1)
-    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(-0.1)
-    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(0.01)
-    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(-0.01)
-    meta_factory.factory_pool << RubyOnAcid::RepeatFactory.new(
+    source_factories << RubyOnAcid::SineFactory.new(0.1)
+    source_factories << RubyOnAcid::SineFactory.new(-0.1)
+    source_factories << RubyOnAcid::SineFactory.new(0.01)
+    source_factories << RubyOnAcid::SineFactory.new(-0.01)
+    #A RepeatFactory wraps another factory, queries it, and repeats the same value a certain number of times.
+    source_factories << RubyOnAcid::RepeatFactory.new(
       RubyOnAcid::LoopFactory.new(random_factory.within(:increment, -0.1, 0.1)),
-      random_factory.within(:interval, 2, 100)
+      random_factory.get(:interval, :min => 2, :max => 100)
     )
-    meta_factory.factory_pool << RubyOnAcid::RepeatFactory.new(
+    source_factories << RubyOnAcid::RepeatFactory.new(
       RubyOnAcid::SineFactory.new(random_factory.within(:increment, -0.1, 0.1)),
-      random_factory.within(:interval, 2, 100)
+      random_factory.get(:interval, :min => 2, :max => 100)
     )
-    meta_factory.factory_pool << RubyOnAcid::ModuloFactory.new(RubyOnAcid::LoopFactory.new(0.00001))
+    #A CombinationFactory combines the values of two or more other factories.
+    combination_factory = RubyOnAcid::CombinationFactory.new
+    2.times do
+      combination_factory.source_factories << source_factories[rand(source_factories.length)]
+    end
+    source_factories << combination_factory
+    
+    #The MetaFactory pulls requested value types from the other factories.
+    meta_factory = RubyOnAcid::MetaFactory.new
+    meta_factory.factory_pool = source_factories
     
     meta_factory
+    
   end
+ 
  
   def render(surface)
     color = Wx::Colour.new(
@@ -86,7 +100,7 @@ class MyApp < Wx::App
       :arc,
       :polygon,
       :line,
-      # :rectangle,
+      :rectangle,
       :circle,
       :spline
     )
@@ -108,14 +122,14 @@ class MyApp < Wx::App
       surface.draw_circle(
         @f.get(:x0, :max => WIDTH).to_i,
         @f.get(:y0, :max => HEIGHT).to_i,
-        @f.get(:width, :max => WIDTH).to_i
+        @f.get(:width, :max => 100).to_i
       )
     when :arc
       surface.draw_elliptic_arc(
         @f.get(:x0, :max => WIDTH).to_i,
         @f.get(:y0, :max => HEIGHT).to_i,
-        @f.get(:width, :max => WIDTH).to_i,
-        @f.get(:height, :max => HEIGHT).to_i,
+        @f.get(:width, :max => 100).to_i,
+        @f.get(:height, :max => 100).to_i,
         @f.get(:arc_start, :max => 360).to_i,
         @f.get(:arc_end, :max => 360).to_i
       )
@@ -126,9 +140,10 @@ class MyApp < Wx::App
     end
   end
   
+  
   def make_point_array
     points = []
-    @f.get(:points, :min => 3, :max => 6).to_i.times do |i|
+    3.times do |i|
       points << Wx::Point.new(
         @f.get("x#{i}".to_sym, :max => WIDTH).to_i,
         @f.get("y#{i}".to_sym, :max => HEIGHT).to_i
@@ -136,6 +151,7 @@ class MyApp < Wx::App
     end
     points
   end
+
 
 end
 
