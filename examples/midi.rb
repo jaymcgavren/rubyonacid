@@ -3,7 +3,6 @@ require 'rubyonacid/factories/meta'
 require 'rubyonacid/factories/constant'
 require 'rubyonacid/factories/flash'
 require 'rubyonacid/factories/loop'
-require 'rubyonacid/factories/modulo'
 require 'rubyonacid/factories/random'
 require 'rubyonacid/factories/repeat'
 require 'rubyonacid/factories/sine'
@@ -35,7 +34,6 @@ factory.factory_pool << RubyOnAcid::RepeatFactory.new(
   RubyOnAcid::SineFactory.new(random_factory.within(:increment, -0.1, 0.1)),
   random_factory.within(:interval, 2, 100)
 )
-factory.factory_pool << RubyOnAcid::ModuloFactory.new(RubyOnAcid::LoopFactory.new(0.00001))
 
 #A skip factory, in charge of randomly resetting the meta factory.
 @resetter = RubyOnAcid::SkipFactory.new(0.999)

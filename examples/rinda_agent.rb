@@ -4,7 +4,6 @@ require 'rubyonacid/factories/meta'
 require 'rubyonacid/factories/constant'
 require 'rubyonacid/factories/flash'
 require 'rubyonacid/factories/loop'
-require 'rubyonacid/factories/modulo'
 require 'rubyonacid/factories/random'
 require 'rubyonacid/factories/repeat'
 require 'rubyonacid/factories/rinda'
@@ -71,7 +70,6 @@ class MyApp < Wx::App
       RubyOnAcid::SineFactory.new(random_factory.within(:increment, -0.1, 0.1)),
       random_factory.within(:interval, 2, 100)
     )
-    meta_factory.factory_pool << RubyOnAcid::ModuloFactory.new(RubyOnAcid::LoopFactory.new(0.00001))
     
     meta_factory
   end
