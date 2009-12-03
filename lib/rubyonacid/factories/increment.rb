@@ -3,7 +3,8 @@ require 'rubyonacid/factory'
 module RubyOnAcid
 
 class IncrementFactory < Factory
-  
+
+  #The amount to increment counters by.
   attr_accessor :interval
   def interval=(value)
     @interval = value
@@ -18,7 +19,7 @@ class IncrementFactory < Factory
     @interval = interval
   end
   
-  #Increment counter for key and get its sine, then scale it between 0 and 1.
+  #Increment counter for given key and return it. Constrain between 0 and 1.
   def get_unit(key)
     @counters[key] ||= @start_value
     @counters[key] += @interval
