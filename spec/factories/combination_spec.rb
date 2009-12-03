@@ -39,10 +39,10 @@ describe CombinationFactory do
       @it.get_unit(:x).should be_close(1.0, MARGIN)
     end
     
-    it "uses constrain mode by default" do
+    it "uses wrap mode by default" do
       @it.source_factories << mock('Factory', :get_unit => 0.4)
       @it.source_factories << mock('Factory', :get_unit => 0.7)
-      @it.get_unit(:x).should be_close(1.0, MARGIN)
+      @it.get_unit(:x).should be_close(0.1, MARGIN)
     end
     
     it "can wrap > 1.0 value around" do

@@ -19,7 +19,7 @@ class CombinationFactory < Factory
     super
     @source_factories = options[:source_factories] || []
     @operation = options[:operation] || ADD
-    @constrain_mode = options[:constrain_mode] || CONSTRAIN
+    @constrain_mode = options[:constrain_mode] || WRAP
   end
   
   def get_unit(key)
