@@ -1,21 +1,89 @@
 !http://github.com/jaymcgavren/rubyonacid/raw/master/generators.png!
 
+
 h1. Ruby On Acid
 
-A Ruby library for making trippy visuals.
+A Ruby library for making trippy visuals and sounds.  Need to pick locations and colors to draw in?  Let one of Ruby On Acid's "factories" do it for you.  Then swap out one factory for another without changing your code.  Need to pick a note from a scale or a tempo?  Ruby On Acid factories can do that too.  And if none of the bundled factories does what you need, it's easy to write your own.
 
 
-h1. Factories
+h1. Installation
+
+<pre>
+  sudo gem install rubyonacid
+</pre>
+
+
+h1. Using Factories
 
 The factory is the core concept of Ruby On Acid.  You create a factory of a particular type, and then anywhere in your code that you need a value within a certain range, you get it from the factory.  For example, if you need x and y coordinates for drawing on a 800 x 600 window, you would tell a factory that you need a value for :x from 0 to 800, and a value for :y from 0 to 600.  If you later wanted to change drawing patterns, you could simply swap out factories.
 
+<pre>
+  def draw(factory)
+    window.draw_circle(
+      factory.get(:x, :max => 800),
+      factory.get(:y, :max => 600),
+      factory.get(:radius, :max => 100)
+    )
+  end
+  
+  current_factory = RubyOnAcid::RandomFactory.new
+  10.times {draw(current_factory)}
+  current_factory = RubyOnAcid::LoopFactory.new
+  10.times {draw(current_factory)}
+</pre>
 
-h1. Roadmap
+See the examples directory for usage of the various factories.
 
-* A factory that evaluates the last value for 2 keys and modifies a third based on them.  (Example, change the size of rectangles based on their x and y coordinates.
-* Skip Factory: Add probability matrix [0.5, 0.9, 0.1...] that causes get_unit() to return true every time rand() is > given value. Also add mask value (0.1, 0.9), etc, that is added to random value to increase likelihood of returning true.
+
+h1. Writing Your Own Factories
+
+Making new factories is easy - simply make a subclass of RubyOnAcid::Factory.  Then write a get_unit() method that takes a key and returns a value between 0 and 1.
+
+For example, here's the entire code for the bundled RandomFactory class:
+
+<pre>
+  class RandomFactory < RubyOnAcid::Factory
+    def get_unit(key)
+      return rand
+    end
+  end
+</pre>
+
+Of course, when the values you're generating are random, you don't need to know what they'll be used for.  For situations where you do care, you can use the "key" parameter, which is an indication from the factory user of the kind of value they need.  This class tracks the previously returned value for a key and increments the next one:
+
+<pre>
+  class CumulativeFactory < RubyOnAcid::Factory
+    def initialize
+      super #Be sure to call Factory's constructor if you override it!
+      @counters = Hash.new {|h, k| h[k] = 0.0}
+    end
+    def get_unit(key)
+      @counters[key] = (@counters[key] + 0.1) % 1.0
+      return @counters[key]
+    end
+  end
+
+  factory = CumulativeFactory.new
+  puts factory.get(:x) # => 0.1
+  puts factory.get(:y) # => 0.1
+  puts factory.get(:x) # => 0.2
+  puts factory.get(:z) # => 0.1
+</pre>
+
+Start by looking at the code for the bundled factories in the lib/rubyonacid/factories directory; it should give you some ideas of what's possible.
+
+
+h1. Resources
+
+The project page on GitHub lets you browse the latest code, or clone or fork the source repo for yourself.
+
+"GitHub project":http://www.github.com/jaymcgavren/rubyonacid
+
+The discussion list is the place for questions, problems, bug reports, feature requests, etc.  And since working with Ruby On Acid is usually a creative endeavor, be sure to share your ideas and learn from others, too!
+
+"Discussion list":http://groups.google.com/group/rubyonacid
 
 
 h1. Copyright
 
-Copyright (c) 2009 Jay McGavren. See LICENSE for details.
+Copyright (c) 2009 Jay McGavren. Released under the MIT license. See the LICENSE file for details.
