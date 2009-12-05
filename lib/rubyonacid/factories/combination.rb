@@ -4,15 +4,24 @@ module RubyOnAcid
 
 class CombinationFactory < Factory
   
+  #Causes get_unit value of all source_factories to be added together.
   ADD = :add
+  #Takes the get_unit value of the first of the source_factories and subtracts the get_unit value of all subsequent ones.
   SUBTRACT = :subtract
+  #Causes get_unit value of all source_factories to be multiplied.
   MULTIPLY = :multiply
+  #Takes the get_unit value of the first of the source_factories and divides the result by the get_unit value of all subsequent ones.
   DIVIDE = :divide
+  #Causes get_unit values above 1 to be truncated at 1 and values below 0 to be truncated at 0.
   CONSTRAIN = :constrain
+  #Causes get_unit values above 1 to wrap to 0 and values below 0 to wrap to 1.
   WRAP = :wrap
   
+  #An array of factories to be queried by get_unit. 
   attr_accessor :source_factories
+  #The operation get_unit will perform.
   attr_accessor :operation
+  #The method get_unit will use to constrain values between 0 and 1.
   attr_accessor :constrain_mode
   
   def initialize(options = {})
@@ -22,6 +31,8 @@ class CombinationFactory < Factory
     @constrain_mode = options[:constrain_mode] || WRAP
   end
   
+  #Queries all source_factories with given key and combines their return values with the set operation.
+  #Values will be constrained between 0 and 1 with the set constrain_mode.
   def get_unit(key)
     combined_value = combine(key)
     constrain(combined_value)

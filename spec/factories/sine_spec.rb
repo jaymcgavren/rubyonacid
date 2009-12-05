@@ -15,7 +15,6 @@ describe SineFactory do
   
   it "loops between 0 and 1" do
     @it.interval = 1.0
-    # @it.get_unit(:x).should be_close(0.500, MARGIN)
     @it.get_unit(:x).should be_close(0.920, MARGIN)
     @it.get_unit(:x).should be_close(0.954, MARGIN)
     @it.get_unit(:x).should be_close(0.570, MARGIN)
@@ -26,7 +25,6 @@ describe SineFactory do
   
   it "can take a different interval" do
     @it.interval = 0.5
-    # @it.get_unit(:x).should be_close(0.500, MARGIN)
     @it.get_unit(:x).should be_close(0.740, MARGIN)
     @it.get_unit(:x).should be_close(0.920, MARGIN)
   end

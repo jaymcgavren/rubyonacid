@@ -2,6 +2,7 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
+#Returns 0.0 for a given number of queries, then 1.0 for the same number of queries, then goes back to 0.0 and repeats.
 class FlashFactory < Factory
   
   attr_accessor :interval

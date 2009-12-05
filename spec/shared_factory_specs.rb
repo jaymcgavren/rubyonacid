@@ -73,6 +73,5 @@ shared_examples_for "a factory" do
       end
     end
   end
-  
-  
+    
 end

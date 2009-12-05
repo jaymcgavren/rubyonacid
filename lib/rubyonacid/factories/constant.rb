@@ -2,8 +2,10 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
+#A factory that returns a preset value for all keys.
 class ConstantFactory < Factory
   
+  #A value between 0 and 1 that get_unit will return.
   attr_accessor :value
   def value=(value)
     raise "assigned #{value} to value, must be between -1 and 1" if value < -1 or value > 1
@@ -15,7 +17,7 @@ class ConstantFactory < Factory
     @value = value
   end
   
-  #Increment counter for key, looping it around to opposite side if it exits boundary.
+  #Returns assigned value.
   def get_unit(key)
     @value
   end

@@ -33,6 +33,7 @@ class Factory
     all_choices[index]
   end
   
+  
 end
 
 end
