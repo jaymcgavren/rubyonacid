@@ -1,5 +1,7 @@
 module RubyOnAcid
 
+#The parent class for all other Factories.
+#Should not normally be instantiated directly.
 class Factory
 
   def initialize(*args)

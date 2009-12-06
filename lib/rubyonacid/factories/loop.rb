@@ -2,9 +2,10 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
+#Loops from the minimum value to the maximum and around again.
 class LoopFactory < Factory
   
-  #The amount to increment counters by.
+  #An amount between 0 and 1 to increment counters by.
   attr_accessor :interval
   def interval=(value)
     raise "assigned #{value} to interval, must be between -1 and 1" if value < -1 or value > 1

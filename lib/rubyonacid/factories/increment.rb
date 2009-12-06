@@ -2,6 +2,7 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
+#Increments from the minimum value, stopping at the maximum, or decrements from the maximum value, stopping at the minimum.
 class IncrementFactory < Factory
 
   #The amount to increment counters by.

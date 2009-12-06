@@ -2,6 +2,7 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
+#Returns the minimum or the maximum at random (influenced by the given odds).
 class SkipFactory < Factory
   
   #The percentage odds that the factory will return 0 instead of 1.

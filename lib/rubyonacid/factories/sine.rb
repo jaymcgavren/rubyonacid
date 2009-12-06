@@ -2,8 +2,10 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
+#Produces a "wave" pattern.
 class SineFactory < Factory
   
+  #Counters used to calculate sine values will be incremented by this amount with each query.
   attr_accessor :interval
   
   def initialize(interval = 0.1)
