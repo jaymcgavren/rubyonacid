@@ -75,6 +75,10 @@ Start by looking at the code for the bundled factories in the lib/rubyonacid/fac
 
 h1. Resources
 
+API documentation is hosted on RDoc.info.
+
+"RDoc documentation":http://rdoc.info/projects/jaymcgavren/rubyonacid
+
 The project page on GitHub lets you browse the latest code, or clone or fork the source repo for yourself.
 
 "GitHub project":http://www.github.com/jaymcgavren/rubyonacid
