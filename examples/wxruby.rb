@@ -48,28 +48,31 @@ class MyApp < Wx::App
     
     source_factories = []
     #Loop factories loop from 0.0 to 1.0 (or 1.0 to 0.0 if the increment value is negative).
-    source_factories << RubyOnAcid::LoopFactory.new(0.01)
-    source_factories << RubyOnAcid::LoopFactory.new(-0.01)
-    source_factories << RubyOnAcid::LoopFactory.new(0.001)
-    source_factories << RubyOnAcid::LoopFactory.new(-0.001)
-    #Constant factories always return the same value,
-    source_factories << RubyOnAcid::ConstantFactory.new(rand)
-    source_factories << RubyOnAcid::ConstantFactory.new(rand)
+    5.times do
+      factory = RubyOnAcid::LoopFactory.new
+      factory.interval = random_factory.get(:increment, :min => -0.1, :max => 0.1)
+      source_factories << factory
+    end
+    #Constant factories always return the same value.
+    3.times do
+      factory = RubyOnAcid::ConstantFactory.new
+      factory.value = random_factory.get(:constant)
+      source_factories << factory
+    end
     source_factories << RubyOnAcid::FlashFactory.new(rand(100))
     #Sine factories produce a "wave" pattern.
-    source_factories << RubyOnAcid::SineFactory.new(0.1)
-    source_factories << RubyOnAcid::SineFactory.new(-0.1)
-    source_factories << RubyOnAcid::SineFactory.new(0.01)
-    source_factories << RubyOnAcid::SineFactory.new(-0.01)
+    4.times do
+      factory = RubyOnAcid::SineFactory.new
+      factory.interval = random_factory.get(:increment, :min => -0.1, :max => 0.1)
+      source_factories << factory
+    end
     #A RepeatFactory wraps another factory, queries it, and repeats the same value a certain number of times.
-    source_factories << RubyOnAcid::RepeatFactory.new(
-      RubyOnAcid::LoopFactory.new(random_factory.within(:increment, -0.1, 0.1)),
-      random_factory.get(:interval, :min => 2, :max => 100)
-    )
-    source_factories << RubyOnAcid::RepeatFactory.new(
-      RubyOnAcid::SineFactory.new(random_factory.within(:increment, -0.1, 0.1)),
-      random_factory.get(:interval, :min => 2, :max => 100)
-    )
+    2.times do
+      factory = RubyOnAcid::RepeatFactory.new
+      factory.repeat_count = random_factory.get(:interval, :min => 2, :max => 100)
+      factory.source_factory = source_factories[rand(source_factories.length)]
+      source_factories << factory
+    end
     #A CombinationFactory combines the values of two or more other factories.
     combination_factory = RubyOnAcid::CombinationFactory.new
     2.times do
