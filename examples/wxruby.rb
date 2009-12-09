@@ -96,7 +96,7 @@ class MyApp < Wx::App
       @f.get(:blue, :max => 255).to_i,
       @f.get(:alpha, :min => 50, :max => 200).to_i
     )
-    surface.pen = Wx::Pen.new(color, @f.within(:width, 1, 5).to_i)
+    surface.pen = Wx::Pen.new(color, @f.get(:width, :min => 1, :max => 5).to_i)
     surface.brush = Wx::Brush.new(color, Wx::SOLID)
     case @f.choose(:shape,
       :arc,

@@ -19,7 +19,7 @@ class MyApp < Wx::App
 
   def on_init
     
-    @f = RubyOnAcid::RindaFactory.new(ARGV[0])
+    @f = RubyOnAcid::RindaFactory.new(ARGV[0] || "druby://127.0.0.1:7632")
     @f.default_factory = create_factory
     @f.start_service
     
@@ -63,12 +63,12 @@ class MyApp < Wx::App
     meta_factory.factory_pool << RubyOnAcid::SineFactory.new(0.01)
     meta_factory.factory_pool << RubyOnAcid::SineFactory.new(-0.01)
     meta_factory.factory_pool << RubyOnAcid::RepeatFactory.new(
-      RubyOnAcid::LoopFactory.new(random_factory.within(:increment, -0.1, 0.1)),
-      random_factory.within(:interval, 2, 100)
+      RubyOnAcid::LoopFactory.new(random_factory.get(:increment, :min => -0.1, :max => 0.1)),
+      random_factory.get(:interval, :min => 2, :max => 100)
     )
     meta_factory.factory_pool << RubyOnAcid::RepeatFactory.new(
-      RubyOnAcid::SineFactory.new(random_factory.within(:increment, -0.1, 0.1)),
-      random_factory.within(:interval, 2, 100)
+      RubyOnAcid::SineFactory.new(random_factory.get(:increment, :min => -0.1, :max => 0.1)),
+      random_factory.get(:interval, :min => 2, :max => 100)
     )
     
     meta_factory
@@ -81,7 +81,7 @@ class MyApp < Wx::App
       @f.get(:blue, :max => 255).to_i,
       @f.get(:alpha, :min => 50, :max => 200).to_i
     )
-    surface.pen = Wx::Pen.new(color, @f.within(:width, 1, 5).to_i)
+    surface.pen = Wx::Pen.new(color, @f.get(:width, :min => 1, :max => 5).to_i)
     surface.brush = Wx::Brush.new(color, Wx::SOLID)
     case @f.choose(:shape,
       :arc,
