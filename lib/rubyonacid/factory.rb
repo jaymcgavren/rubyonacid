@@ -18,7 +18,7 @@ class Factory
   def get(key, options = {})
     @minimums[key] = (options[:min] || @minimums[key] || 0.0)
     @maximums[key] = (options[:max] || @maximums[key] || (@minimums[key] > 1.0 ? @minimums[key] + 1.0 : 1.0))
-    get_unit(key) * (@maximums[key] - @minimums[key]) + @minimums[key]
+    (get_unit(key) * (@maximums[key] - @minimums[key])) + @minimums[key]
   end
   
   #Returns true if get_unit(key) returns greater than 0.5.

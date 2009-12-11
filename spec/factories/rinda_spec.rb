@@ -4,28 +4,35 @@ require 'rubyonacid/factories/rinda'
 
 include RubyOnAcid
 
+require 'rinda/rinda'
+require 'rinda/tuplespace'
+DRb.start_service
+DRb.start_service("druby://127.0.0.1:7632", Rinda::TupleSpace.new) 
+
 describe RindaFactory do
-  
   
   before :each do
     @it = RindaFactory.new
-    uri = "druby://127.0.0.1:9999"
-    @it.uri = uri
-    require 'rinda/rinda'
-    require 'rinda/tuplespace'
-    DRb.start_service
-    DRb.start_service(uri, Rinda::TupleSpace.new) 
+    @it.uri = "druby://127.0.0.1:7632"
     @space = Rinda::TupleSpaceProxy.new(DRbObject.new(nil, @it.uri)) 
   end
   
-  it_should_behave_like "a factory"
+  describe "general behavior" do
+  
+    before :each do
+      @it.start_service
+    end
+  
+    it_should_behave_like "a factory"
+    
+  end
   
   it "gets keys from Rinda server" do
     @it.start_service
     @space.write([:x, 0.5])
     @it.get_unit(:x).should == 0.5
     @space.write([:y, 0.6])
-    @it.get_unit(:x).should == 0.6
+    @it.get_unit(:y).should == 0.6
   end
   
   it "gets keys from a backup factory when it cannot retrieve values via Rinda" do

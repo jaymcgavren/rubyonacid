@@ -14,6 +14,10 @@ end
 require 'rubyonacid/factories/random'
 make_lines RubyOnAcid::RandomFactory.new
 
+#Random walk factories increase or decrease the prior return value within a given amount.
+require 'rubyonacid/factories/random_walk'
+make_lines RubyOnAcid::RandomWalkFactory.new(0.1)
+
 #Loop factories loop from 0 to 1 (or 1 to 0 if the increment value is negative).
 require 'rubyonacid/factories/loop'
 make_lines RubyOnAcid::LoopFactory.new(0.2)

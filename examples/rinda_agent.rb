@@ -5,6 +5,7 @@ require 'rubyonacid/factories/constant'
 require 'rubyonacid/factories/flash'
 require 'rubyonacid/factories/loop'
 require 'rubyonacid/factories/random'
+require 'rubyonacid/factories/random_walk'
 require 'rubyonacid/factories/repeat'
 require 'rubyonacid/factories/rinda'
 require 'rubyonacid/factories/sine'
@@ -46,18 +47,14 @@ class MyApp < Wx::App
   def create_factory
     random_factory = RubyOnAcid::RandomFactory.new
     
-    #The MetaFactory assigns factories to requested value types.
     meta_factory = RubyOnAcid::MetaFactory.new
-    #Loop factories loop from 0.0 to 1.0 (or 1.0 to 0.0 if the increment value is negative).
     meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(0.01)
     meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(-0.01)
     meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(0.001)
     meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(-0.001)
-    #Constant factories always return the same value,
     meta_factory.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
     meta_factory.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
     meta_factory.factory_pool << RubyOnAcid::FlashFactory.new(rand(100))
-    #Sine factories produce a "wave" pattern.
     meta_factory.factory_pool << RubyOnAcid::SineFactory.new(0.1)
     meta_factory.factory_pool << RubyOnAcid::SineFactory.new(-0.1)
     meta_factory.factory_pool << RubyOnAcid::SineFactory.new(0.01)
@@ -70,6 +67,7 @@ class MyApp < Wx::App
       RubyOnAcid::SineFactory.new(random_factory.get(:increment, :min => -0.1, :max => 0.1)),
       random_factory.get(:interval, :min => 2, :max => 100)
     )
+    meta_factory.factory_pool << RubyOnAcid::RandomWalkFactory.new(0.1)
     
     meta_factory
   end

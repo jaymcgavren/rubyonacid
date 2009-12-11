@@ -6,6 +6,7 @@ require 'rubyonacid/factories/constant'
 require 'rubyonacid/factories/flash'
 require 'rubyonacid/factories/loop'
 require 'rubyonacid/factories/random'
+require 'rubyonacid/factories/random_walk'
 require 'rubyonacid/factories/repeat'
 require 'rubyonacid/factories/sine'
 require 'rubyonacid/factories/skip'
@@ -79,6 +80,9 @@ class MyApp < Wx::App
       combination_factory.source_factories << source_factories[rand(source_factories.length)]
     end
     source_factories << combination_factory
+    
+    #Random walk factories increase or decrease the prior return value within a given amount.
+    source_factories << RubyOnAcid::RandomWalkFactory.new(0.1)
     
     #The MetaFactory pulls requested value types from the other factories.
     meta_factory = RubyOnAcid::MetaFactory.new
