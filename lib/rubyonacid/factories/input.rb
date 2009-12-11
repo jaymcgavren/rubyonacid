@@ -22,8 +22,7 @@ class InputFactory < Factory
   end
   
   def default_value(key)
-    # 0.0
-    0.75
+    0.0
   end
   
   def put(key, value)
@@ -54,7 +53,6 @@ class InputFactory < Factory
     #Scales a value between the largest and smallest values seen for a key.
     #Returns a value in the range 0 to 1.
     def scale(key, value)
-# require 'g'; g "#{@largest_seen_values}/#{@smallest_seen_values}"
       (value - @smallest_seen_values[key]) / (@largest_seen_values[key] - @smallest_seen_values[key])
     end
   

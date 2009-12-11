@@ -22,7 +22,6 @@ describe RandomWalkFactory do
     @it.interval = 0.01
     values << @it.get_unit(:x)
     values[2].should be_close(values[1], 0.01)
-    require 'g'; g values
   end
   
 end
