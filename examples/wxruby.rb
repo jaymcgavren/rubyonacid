@@ -1,16 +1,10 @@
 require 'rubygems'
-require 'wx'
-require 'rubyonacid/factories/meta'
-require 'rubyonacid/factories/combination'
-require 'rubyonacid/factories/constant'
-require 'rubyonacid/factories/flash'
-require 'rubyonacid/factories/loop'
-require 'rubyonacid/factories/random'
-require 'rubyonacid/factories/random_walk'
-require 'rubyonacid/factories/repeat'
-require 'rubyonacid/factories/sine'
-require 'rubyonacid/factories/skip'
-
+begin
+  require 'wx'
+rescue LoadError
+  raise "It appears that wxruby is not installed. 'sudo gem install wxruby' to install it."
+end
+require 'rubyonacid/factories/example'
 
 
 class MyApp < Wx::App
@@ -20,16 +14,15 @@ class MyApp < Wx::App
 
   def on_init
     
-    @f = create_factory
+    #This factory will be in charge of all drawing coordinates, colors, etc.
+    @f = RubyOnAcid::ExampleFactory.new
         
     #A skip factory, in charge of randomly resetting the meta factory.
     @resetter = RubyOnAcid::SkipFactory.new(0.999)
     
-    #Containing frame.
+    #Set up window.
     frame = Wx::Frame.new(nil, :size => [WIDTH, HEIGHT])
     frame.show
- 
-    #Displays drawing.
     window = Wx::Window.new(frame, :size => [WIDTH, HEIGHT])
  
     #Animate periodically.
@@ -42,57 +35,7 @@ class MyApp < Wx::App
  
   end
   
-  
-  def create_factory
-    
-    random_factory = RubyOnAcid::RandomFactory.new
-    
-    source_factories = []
-    #Loop factories loop from 0.0 to 1.0 (or 1.0 to 0.0 if the increment value is negative).
-    5.times do
-      factory = RubyOnAcid::LoopFactory.new
-      factory.interval = random_factory.get(:increment, :min => -0.1, :max => 0.1)
-      source_factories << factory
-    end
-    #Constant factories always return the same value.
-    3.times do
-      factory = RubyOnAcid::ConstantFactory.new
-      factory.value = random_factory.get(:constant)
-      source_factories << factory
-    end
-    source_factories << RubyOnAcid::FlashFactory.new(rand(100))
-    #Sine factories produce a "wave" pattern.
-    4.times do
-      factory = RubyOnAcid::SineFactory.new
-      factory.interval = random_factory.get(:increment, :min => -0.1, :max => 0.1)
-      source_factories << factory
-    end
-    #A RepeatFactory wraps another factory, queries it, and repeats the same value a certain number of times.
-    2.times do
-      factory = RubyOnAcid::RepeatFactory.new
-      factory.repeat_count = random_factory.get(:interval, :min => 2, :max => 100)
-      factory.source_factory = source_factories[rand(source_factories.length)]
-      source_factories << factory
-    end
-    #A CombinationFactory combines the values of two or more other factories.
-    combination_factory = RubyOnAcid::CombinationFactory.new
-    2.times do
-      combination_factory.source_factories << source_factories[rand(source_factories.length)]
-    end
-    source_factories << combination_factory
-    
-    #Random walk factories increase or decrease the prior return value within a given amount.
-    source_factories << RubyOnAcid::RandomWalkFactory.new(0.1)
-    
-    #The MetaFactory pulls requested value types from the other factories.
-    meta_factory = RubyOnAcid::MetaFactory.new
-    meta_factory.factory_pool = source_factories
-    
-    meta_factory
-    
-  end
- 
- 
+  #Choose a shape and color and draw it to the given surface.
   def render(surface)
     color = Wx::Colour.new(
       @f.get(:red, :max => 255).to_i,
@@ -146,7 +89,7 @@ class MyApp < Wx::App
     end
   end
   
-  
+  #Create an array of points for drawing complex shapes.
   def make_point_array
     points = []
     3.times do |i|

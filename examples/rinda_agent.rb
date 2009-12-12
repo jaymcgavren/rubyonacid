@@ -1,17 +1,10 @@
 require 'rubygems'
-require 'wx'
-require 'rubyonacid/factories/meta'
-require 'rubyonacid/factories/constant'
-require 'rubyonacid/factories/flash'
-require 'rubyonacid/factories/loop'
-require 'rubyonacid/factories/random'
-require 'rubyonacid/factories/random_walk'
-require 'rubyonacid/factories/repeat'
-require 'rubyonacid/factories/rinda'
-require 'rubyonacid/factories/sine'
-require 'rubyonacid/factories/skip'
-
-
+begin
+  require 'wx'
+rescue LoadError
+  raise "It appears that wxruby is not installed. 'sudo gem install wxruby' to install it."
+end
+require 'rubyonacid/factories/example'
 
 class MyApp < Wx::App
 
@@ -21,17 +14,15 @@ class MyApp < Wx::App
   def on_init
     
     @f = RubyOnAcid::RindaFactory.new(ARGV[0] || "druby://127.0.0.1:7632")
-    @f.default_factory = create_factory
+    @f.default_factory = RubyOnAcid::ExampleFactory.new
     @f.start_service
     
     #A skip factory, in charge of randomly resetting the meta factory.
     @resetter = RubyOnAcid::SkipFactory.new(0.999)
     
-    #Containing frame.
+    #Set up window.
     frame = Wx::Frame.new(nil, :size => [WIDTH, HEIGHT])
     frame.show
- 
-    #Displays drawing.
     window = Wx::Window.new(frame, :size => [WIDTH, HEIGHT])
  
     #Animate periodically.
@@ -41,35 +32,7 @@ class MyApp < Wx::App
       @f.default_factory.reset_assignments if @resetter.boolean(:reset)
     end
     t.start(33)
- 
-  end
- 
-  def create_factory
-    random_factory = RubyOnAcid::RandomFactory.new
-    
-    meta_factory = RubyOnAcid::MetaFactory.new
-    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(0.01)
-    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(-0.01)
-    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(0.001)
-    meta_factory.factory_pool << RubyOnAcid::LoopFactory.new(-0.001)
-    meta_factory.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
-    meta_factory.factory_pool << RubyOnAcid::ConstantFactory.new(rand)
-    meta_factory.factory_pool << RubyOnAcid::FlashFactory.new(rand(100))
-    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(0.1)
-    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(-0.1)
-    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(0.01)
-    meta_factory.factory_pool << RubyOnAcid::SineFactory.new(-0.01)
-    meta_factory.factory_pool << RubyOnAcid::RepeatFactory.new(
-      RubyOnAcid::LoopFactory.new(random_factory.get(:increment, :min => -0.1, :max => 0.1)),
-      random_factory.get(:interval, :min => 2, :max => 100)
-    )
-    meta_factory.factory_pool << RubyOnAcid::RepeatFactory.new(
-      RubyOnAcid::SineFactory.new(random_factory.get(:increment, :min => -0.1, :max => 0.1)),
-      random_factory.get(:interval, :min => 2, :max => 100)
-    )
-    meta_factory.factory_pool << RubyOnAcid::RandomWalkFactory.new(0.1)
-    
-    meta_factory
+
   end
 
   def render(surface)

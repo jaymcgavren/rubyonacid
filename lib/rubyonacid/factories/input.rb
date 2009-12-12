@@ -3,6 +3,8 @@ require 'rubyonacid/factory'
 module RubyOnAcid
 
 class InputFactory < Factory
+
+  attr_accessor :default_factory
   
   def initialize
     super
@@ -22,7 +24,7 @@ class InputFactory < Factory
   end
   
   def default_value(key)
-    0.0
+    @default_factory ? @default_factory.get_unit(key) : 0.0
   end
   
   def put(key, value)
@@ -39,6 +41,10 @@ class InputFactory < Factory
   
   def clear_input_values
     @input_values = {}
+  end
+  
+  def clear_assigned_keys
+    @assigned_keys = {}
   end
   
   private
