@@ -41,3 +41,7 @@ factories_to_combine = [
   RubyOnAcid::SineFactory.new(-0.2)
 ]
 make_lines RubyOnAcid::CombinationFactory.new(:source_factories => factories_to_combine)
+
+#A RoundingFactory rounds values from a source factory to a multiple of a given number.
+factory_to_round = RubyOnAcid::LoopFactory.new(0.1)
+make_lines RubyOnAcid::RoundingFactory.new(factory_to_round, 0.25)
