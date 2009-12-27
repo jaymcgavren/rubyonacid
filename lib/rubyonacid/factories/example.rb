@@ -52,8 +52,7 @@ class ExampleFactory < MetaFactory
       2.times do
         source_factories << RubyOnAcid::RoundingFactory.new(
           random_element(source_factories),
-          # 0.3
-          random_factory.get(:interval)
+          random_factory.get(:interval, :min => 0.1, :max => 0.5)
         )
       end
       combination_factory = RubyOnAcid::CombinationFactory.new
