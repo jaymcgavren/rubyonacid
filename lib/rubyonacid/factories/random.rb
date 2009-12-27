@@ -12,5 +12,4 @@ class RandomFactory < Factory
 
 end
 
-
 end

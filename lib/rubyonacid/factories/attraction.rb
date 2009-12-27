@@ -9,6 +9,7 @@ class AttractionFactory < Factory
   #Factory to get values from.
   attr_accessor :source_factory
   
+  #Values from source_factory will be "pulled" toward values from this factory.
   attr_accessor :attractor_factory
   
   def initialize(source_factory = nil, attractor_factory = nil)
@@ -17,6 +18,9 @@ class AttractionFactory < Factory
     @attractor_factory = attractor_factory
   end
   
+  #Get a value from the source_factory and a value from the attractor_factory.
+  #The source_factory value will be adjusted to be closer to the attractor_factory value.
+  #The closer the values are, the greater the adjustment.
   def get_unit(key)
     # force = delta * @magnetism / (distance * Jemini::Math::SQUARE_ROOT_OF_TWO)
     value = @source_factory.get_unit(key)

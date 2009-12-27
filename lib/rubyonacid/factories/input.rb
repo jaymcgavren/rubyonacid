@@ -2,8 +2,10 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
+#Allows values to be assigned from an external source.
 class InputFactory < Factory
 
+  #A factory to pull values from in the event no values are stored for a given key.
   attr_accessor :default_factory
   
   def initialize
@@ -14,6 +16,8 @@ class InputFactory < Factory
     @smallest_seen_values = {}
   end
   
+  #Retrieves the next stored value for the given key.
+  #The key that values are pulled from will not necessarily be the same as that passed to put() - value queue keys are assigned to get_unit() keys at random.
   def get_unit(key)
     current_key = assigned_key(key)
     if @input_values[current_key] and @input_values[current_key].length > 0
@@ -22,11 +26,9 @@ class InputFactory < Factory
       return default_value(key)
     end
   end
-  
-  def default_value(key)
-    @default_factory ? @default_factory.get_unit(key) : 0.0
-  end
-  
+
+  #Store a value for the given key.
+  #Values will be scaled to the range 0 to 1 - the largest value yet seen will be scaled to 1.0, the smallest yet seen to 0.0.
   def put(key, value)
     value = value.to_f
     @input_values[key] ||= []
@@ -39,15 +41,21 @@ class InputFactory < Factory
     @largest_seen_values[key] = value if value > @largest_seen_values[key]
   end
   
+  #Clears all stored input values for all keys.
   def clear_input_values
     @input_values = {}
   end
   
+  #Clear all value queue key assignments.
   def clear_assigned_keys
     @assigned_keys = {}
   end
   
   private
+  
+    def default_value(key)
+      @default_factory ? @default_factory.get_unit(key) : 0.0
+    end
   
     def assigned_key(key)
       return @key_assignments[key] if @key_assignments[key]

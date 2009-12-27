@@ -2,11 +2,12 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
+#Rounds values from a source factory, useful for clustering values into groups.
 class RoundingFactory < Factory
   
   #Factory to get values from.
   attr_accessor :source_factory
-  
+  #Source values will be rounded to the nearest multiple of this value.
   attr_accessor :nearest
   
   def initialize(source_factory = nil, nearest = 0.1)

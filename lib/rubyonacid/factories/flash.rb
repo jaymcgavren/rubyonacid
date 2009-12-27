@@ -5,6 +5,7 @@ module RubyOnAcid
 #Returns 0.0 for a given number of queries, then 1.0 for the same number of queries, then goes back to 0.0 and repeats.
 class FlashFactory < Factory
   
+  #The number of times to return a value before switching.
   attr_accessor :interval
   
   def initialize(interval = 3)
