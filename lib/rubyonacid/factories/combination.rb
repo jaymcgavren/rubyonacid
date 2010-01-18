@@ -69,6 +69,8 @@ class CombinationFactory < Factory
         end
       when WRAP
         return value % 1.0
+      else
+        raise "invalid constrain mode - must be CONSTRAIN or WRAP"
       end
     end
   
