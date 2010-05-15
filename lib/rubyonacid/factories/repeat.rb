@@ -5,14 +5,11 @@ module RubyOnAcid
 #Gets values from a source factory and returns the same value the given number of times before getting a fresh value.
 class RepeatFactory < Factory
   
-  #Factory to get values from.
-  attr_accessor :source_factory
   #The number of times to repeat a value for a given key.
   attr_accessor :repeat_count
   
   def initialize(options = {})
     super
-    @source_factory = options[:source_factory]
     @repeat_count = options[:repeat_count] || 2
     @repeat_counts = {}
     @values = {}
@@ -25,7 +22,7 @@ class RepeatFactory < Factory
       @values[key] = nil 
       @repeat_counts[key] = 0
     end
-    @values[key] ||= @source_factory.get_unit(key)
+    @values[key] ||= super
     @repeat_counts[key] += 1
     @values[key]
   end
