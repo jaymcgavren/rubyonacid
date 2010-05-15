@@ -8,10 +8,10 @@ class SineFactory < Factory
   #Counters used to calculate sine values will be incremented by this amount with each query.
   attr_accessor :interval
   
-  def initialize(interval = 0.1)
+  def initialize(options = {})
     super
     @counters = {}
-    @interval = interval
+    @interval = options[:interval] || 0.1
   end
   
   #Increment counter for key and get its sine, then scale it between 0 and 1.

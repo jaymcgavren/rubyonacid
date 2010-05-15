@@ -12,10 +12,10 @@ class AttractionFactory < Factory
   #Values from source_factory will be "pulled" toward values from this factory.
   attr_accessor :attractor_factory
   
-  def initialize(source_factory = nil, attractor_factory = nil)
+  def initialize(options = {})
     super
-    @source_factory = source_factory
-    @attractor_factory = attractor_factory
+    @source_factory = options[:source_factory]
+    @attractor_factory = options[:attractor_factory]
   end
   
   #Get a value from the source_factory and a value from the attractor_factory.

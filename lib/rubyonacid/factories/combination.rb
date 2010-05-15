@@ -17,8 +17,6 @@ class CombinationFactory < Factory
   #Causes get_unit values above 1 to wrap to 0 and values below 0 to wrap to 1.
   WRAP = :wrap
   
-  #An array of factories to be queried by get_unit. 
-  attr_accessor :source_factories
   #The operation get_unit will perform.
   attr_accessor :operation
   #The method get_unit will use to constrain values between 0 and 1.

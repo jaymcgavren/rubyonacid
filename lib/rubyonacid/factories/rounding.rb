@@ -10,10 +10,10 @@ class RoundingFactory < Factory
   #Source values will be rounded to the nearest multiple of this value.
   attr_accessor :nearest
   
-  def initialize(source_factory = nil, nearest = 0.1)
+  def initialize(options = {})
     super
-    @source_factory = source_factory
-    @nearest = nearest
+    @source_factory = options[:source_factory]
+    @nearest = options[:nearest] || 0.1
   end
   
   def get_unit(key)

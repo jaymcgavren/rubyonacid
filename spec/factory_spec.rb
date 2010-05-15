@@ -7,7 +7,7 @@ include RubyOnAcid
 describe Factory do
   
   before :each do
-    @it = ConstantFactory.new
+    @it = Factory.new
   end
   
   describe "#choose" do
@@ -55,5 +55,38 @@ describe Factory do
     end
     
   end
+  
+  
+  describe "#tuple" do
+    
+    it "calls #generate with keys and returns array of results" do
+      @it.should_receive(:get_unit).exactly(3).times.and_return(0.25, 0.5, 0.75)
+      result = @it.tuple(:x, :y, :z)
+      result[0].should == 0.25
+      result[1].should == 0.5
+      result[2].should == 0.75
+    end
+    
+  end
+  
+  
+  describe "#source_factories" do
+    
+    it "calls #get_unit on each and averages results" do
+      factory1 = mock('Factory')
+      @it.source_factories << factory1
+      factory2 = mock('Factory')
+      @it.source_factories << factory2
+      factory3 = mock('Factory')
+      @it.source_factories << factory3
+      factory1.should_receive(:get_unit).and_return(0.1)
+      factory2.should_receive(:get_unit).and_return(0.2)
+      factory3.should_receive(:get_unit).and_return(0.3)
+      result = @it.get_unit(:x)
+      result.should be_close(0.2, MARGIN)
+    end
+    
+  end
+  
   
 end

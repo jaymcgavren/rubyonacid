@@ -13,12 +13,12 @@ class MyApp < Wx::App
 
   def on_init
     
-    @f = RubyOnAcid::RindaFactory.new(ARGV[0] || "druby://127.0.0.1:7632")
+    @f = RubyOnAcid::RindaFactory.new(:uri => ARGV[0] || "druby://127.0.0.1:7632")
     @f.default_factory = RubyOnAcid::ExampleFactory.new
     @f.start_service
     
     #A skip factory, in charge of randomly resetting the meta factory.
-    @resetter = RubyOnAcid::SkipFactory.new(0.999)
+    @resetter = RubyOnAcid::SkipFactory.new(:odds => 0.999)
     
     #Set up window.
     frame = Wx::Frame.new(nil, :size => [WIDTH, HEIGHT])
@@ -54,28 +54,28 @@ class MyApp < Wx::App
     )
     when :line
       surface.draw_line(
-        @f.get(:x0, :max => WIDTH).to_i,
-        @f.get(:y0, :max => HEIGHT).to_i,
+        @f.get(:x, :max => WIDTH).to_i,
+        @f.get(:y, :max => HEIGHT).to_i,
         @f.get(:x1, :max => WIDTH).to_i,
         @f.get(:y1, :max => HEIGHT).to_i
       )
     when :rectangle
       surface.draw_rectangle(
-        @f.get(:x0, :max => WIDTH).to_i,
-        @f.get(:y0, :max => HEIGHT).to_i,
+        @f.get(:x, :max => WIDTH).to_i,
+        @f.get(:y, :max => HEIGHT).to_i,
         @f.get(:x1, :max => WIDTH).to_i,
         @f.get(:y1, :max => HEIGHT).to_i
       )
     when :circle
       surface.draw_circle(
-        @f.get(:x0, :max => WIDTH).to_i,
-        @f.get(:y0, :max => HEIGHT).to_i,
+        @f.get(:x, :max => WIDTH).to_i,
+        @f.get(:y, :max => HEIGHT).to_i,
         @f.get(:width, :max => WIDTH).to_i
       )
     when :arc
       surface.draw_elliptic_arc(
-        @f.get(:x0, :max => WIDTH).to_i,
-        @f.get(:y0, :max => HEIGHT).to_i,
+        @f.get(:x, :max => WIDTH).to_i,
+        @f.get(:y, :max => HEIGHT).to_i,
         @f.get(:width, :max => WIDTH).to_i,
         @f.get(:height, :max => HEIGHT).to_i,
         @f.get(:arc_start, :max => 360).to_i,

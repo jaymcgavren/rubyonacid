@@ -33,10 +33,10 @@ class ExampleFactory < MetaFactory
         source_factories << factory
       end
       source_factories << RubyOnAcid::FlashFactory.new(
-        random_factory.get(:interval, :max => 100)
+        :interval => random_factory.get(:interval, :max => 100)
       )
       source_factories << RubyOnAcid::RandomWalkFactory.new(
-        random_factory.get(:interval, :max => 0.1)
+        :interval => random_factory.get(:interval, :max => 0.1)
       )
       4.times do
         factory = RubyOnAcid::SineFactory.new
@@ -51,8 +51,8 @@ class ExampleFactory < MetaFactory
       end
       2.times do
         source_factories << RubyOnAcid::RoundingFactory.new(
-          random_element(source_factories),
-          random_factory.get(:interval, :min => 0.1, :max => 0.5)
+          :source_factory => random_element(source_factories),
+          :nearest => random_factory.get(:interval, :min => 0.1, :max => 0.5)
         )
       end
       combination_factory = RubyOnAcid::CombinationFactory.new

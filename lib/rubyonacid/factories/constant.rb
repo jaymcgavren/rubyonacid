@@ -12,9 +12,9 @@ class ConstantFactory < Factory
     @value = value
   end
   
-  def initialize(value = 0.5)
+  def initialize(options = {})
     super
-    @value = value
+    @value = options[:value] || 0.0
   end
   
   #Returns assigned value.

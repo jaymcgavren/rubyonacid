@@ -8,9 +8,9 @@ class MetaFactory < Factory
   #An array of Factory objects to assign to keys.
   attr_accessor :factory_pool
   
-  def initialize(factory_pool = [])
+  def initialize(options = {})
     super
-    @factory_pool = factory_pool
+    @factory_pool = options[:factory_pool] || []
     @assigned_factories = {}
   end
   

@@ -8,11 +8,11 @@ class FlashFactory < Factory
   #The number of times to return a value before switching.
   attr_accessor :interval
   
-  def initialize(interval = 3)
+  def initialize(options = {})
     super
     @counters = {}
     @values = {}
-    @interval = interval
+    @interval = options[:interval] || 3
   end
   
   #If key is over threshold, flip to other value and reset counter.

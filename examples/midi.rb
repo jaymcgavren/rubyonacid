@@ -5,7 +5,7 @@ require 'rubyonacid/factories/example'
 factory = RubyOnAcid::ExampleFactory.new
     
 #This factory randomly resets the meta factory.
-@resetter = RubyOnAcid::SkipFactory.new(0.999)
+@resetter = RubyOnAcid::SkipFactory.new(:odds => 0.999)
 
 begin
   require 'midiator'

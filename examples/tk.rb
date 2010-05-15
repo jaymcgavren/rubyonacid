@@ -5,7 +5,7 @@ require 'tk'
 f = RubyOnAcid::ExampleFactory.new
 
 #A skip factory, in charge of randomly resetting the meta factory.
-resetter = RubyOnAcid::SkipFactory.new(0.999)
+resetter = RubyOnAcid::SkipFactory.new(:odds => 0.999)
 
 #The window to draw to.
 canvas = TkCanvas.new(:width => 400, :height => 400)

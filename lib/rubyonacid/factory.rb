@@ -4,9 +4,19 @@ module RubyOnAcid
 #Should not normally be instantiated directly.
 class Factory
 
-  def initialize(*args)
+  #An array of factories to be queried by get_unit. 
+  attr_accessor :source_factories
+
+  def initialize(options = {})
     @minimums = {}
     @maximums = {}
+    @source_factories = []
+  end
+  
+  #Calls #get_unit(key) on each source factory and averages results.
+  def get_unit(key)
+    values = source_factories.map{|factory| factory.get_unit(key)}
+    average = values.inject(0.0){|sum, value| sum += value} / source_factories.size
   end
 
   #Calls get_unit with key to get value between 0.0 and 1.0, then converts that value to be between given minimum and maximum.
@@ -33,6 +43,11 @@ class Factory
     index = (get_unit(key) * all_choices.length).floor
     index = all_choices.length - 1 if index > all_choices.length - 1
     all_choices[index]
+  end
+  
+  #Calls get_unit once for each provided key, and returns an array of results.
+  def tuple(*keys)
+    keys.map{|key| get_unit(key)}
   end
   
   

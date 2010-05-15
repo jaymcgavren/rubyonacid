@@ -13,11 +13,11 @@ class IncrementFactory < Factory
     @counters.each_key{|k| @counters[k] = @start_value}
   end
   
-  def initialize(interval = 0.001)
+  def initialize(options = {})
     super
     @start_value = 0.0
     @counters = {}
-    @interval = interval
+    @interval = options[:interval] || 0.001
   end
   
   #Increment counter for given key and return it. Constrain between 0 and 1.

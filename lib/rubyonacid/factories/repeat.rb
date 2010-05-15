@@ -10,10 +10,10 @@ class RepeatFactory < Factory
   #The number of times to repeat a value for a given key.
   attr_accessor :repeat_count
   
-  def initialize(source_factory = nil, repeat_count = 2)
+  def initialize(options = {})
     super
-    @source_factory = source_factory
-    @repeat_count = repeat_count
+    @source_factory = options[:source_factory]
+    @repeat_count = options[:repeat_count] || 2
     @repeat_counts = {}
     @values = {}
   end

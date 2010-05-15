@@ -12,10 +12,10 @@ class LoopFactory < Factory
     @interval = value
   end
   
-  def initialize(interval = 0.01)
+  def initialize(options = {})
     super
     @counters = {}
-    @interval = interval
+    @interval = options[:interval] || 0.01
   end
   
   #Increment counter for key, looping it around to opposite side if it exits boundary.
