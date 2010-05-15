@@ -39,7 +39,7 @@ describe RindaFactory do
     @it.start_service
     default_factory = mock('Factory')
     default_factory.stub!(:get_unit).and_return(0.74)
-    @it.default_factory = default_factory
+    @it.source_factories << default_factory
     @it.get_unit(:a).should == 0.74
   end
   
