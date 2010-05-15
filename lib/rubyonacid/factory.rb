@@ -10,7 +10,7 @@ class Factory
   def initialize(options = {})
     @minimums = {}
     @maximums = {}
-    @source_factories = []
+    @source_factories = options[:source_factories] || []
   end
   
   #Calls #get_unit(key) on each source factory and averages results.

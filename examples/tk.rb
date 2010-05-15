@@ -44,7 +44,7 @@ Thread.new do
     
     #Delete the oldest line if we have accumulated too many.
     lines.shift.delete if lines.length > 1000
-    
+        
   end
 end
 

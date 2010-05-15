@@ -7,11 +7,11 @@ module RubyOnAcid
 class ExampleFactory < MetaFactory
 
   
-  def initialize
+  def initialize(options = {})
     super
-    @factory_pool = create_factories
+    self.source_factories = create_factories
   end
-
+  
 
   private
 
@@ -20,48 +20,48 @@ class ExampleFactory < MetaFactory
       
       random_factory = RubyOnAcid::RandomFactory.new
 
-      source_factories = []
+      factories = []
       
       5.times do
         factory = RubyOnAcid::LoopFactory.new
         factory.interval = random_factory.get(:increment, :min => -0.1, :max => 0.1)
-        source_factories << factory
+        factories << factory
       end
       3.times do
         factory = RubyOnAcid::ConstantFactory.new
         factory.value = random_factory.get(:constant)
-        source_factories << factory
+        factories << factory
       end
-      source_factories << RubyOnAcid::FlashFactory.new(
+      factories << RubyOnAcid::FlashFactory.new(
         :interval => random_factory.get(:interval, :max => 100)
       )
-      source_factories << RubyOnAcid::RandomWalkFactory.new(
+      factories << RubyOnAcid::RandomWalkFactory.new(
         :interval => random_factory.get(:interval, :max => 0.1)
       )
       4.times do
         factory = RubyOnAcid::SineFactory.new
         factory.interval = random_factory.get(:increment, :min => -0.1, :max => 0.1)
-        source_factories << factory
+        factories << factory
       end
       2.times do
         factory = RubyOnAcid::RepeatFactory.new
         factory.repeat_count = random_factory.get(:interval, :min => 2, :max => 100)
-        factory.source_factory = random_element(source_factories)
-        source_factories << factory
+        factory.source_factories << random_element(factories)
+        factories << factory
       end
       2.times do
-        source_factories << RubyOnAcid::RoundingFactory.new(
-          :source_factory => random_element(source_factories),
+        factories << RubyOnAcid::RoundingFactory.new(
+          :source_factories => [random_element(factories)],
           :nearest => random_factory.get(:interval, :min => 0.1, :max => 0.5)
         )
       end
       combination_factory = RubyOnAcid::CombinationFactory.new
       2.times do
-        combination_factory.source_factories << random_element(source_factories)
+        combination_factory.source_factories << random_element(factories)
       end
-      source_factories << combination_factory
+      factories << combination_factory
       
-      source_factories
+      factories
 
     end
     
