@@ -15,6 +15,7 @@ canvas.pack
 lines = []
 
 #Create a thread to update the window while it's displayed.
+Thread.abort_on_exception = true
 Thread.new do
   loop do
     

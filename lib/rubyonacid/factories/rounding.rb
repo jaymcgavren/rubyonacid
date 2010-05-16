@@ -24,7 +24,8 @@ class RoundingFactory < Factory
       if modulus / multiple_of < 0.5
         return multiple_of * quotient
       else
-        return multiple_of * (quotient + 1)
+        value = multiple_of * (quotient + 1)
+        return value > 1.0 ? 1.0 : value
       end
     end  
 
