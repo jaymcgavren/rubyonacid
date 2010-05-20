@@ -24,4 +24,6 @@ describe RandomWalkFactory do
     values[2].should be_close(values[1], 0.01)
   end
   
+  it "adds random amount within given interval to source factories result if source factories are assigned"
+  
 end

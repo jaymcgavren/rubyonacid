@@ -35,6 +35,12 @@ class ExampleFactory < MetaFactory
       factories << RubyOnAcid::FlashFactory.new(
         :interval => random_factory.get(:interval, :max => 100)
       )
+      2.times do
+        factories << RubyOnAcid::LissajousFactory.new(
+          :interval => random_factory.get(:interval, :max => 10.0),
+          :scale => random_factory.get(:scale, :min => 0.1, :max => 2.0)
+        )
+      end
       factories << RubyOnAcid::RandomWalkFactory.new(
         :interval => random_factory.get(:interval, :max => 0.1)
       )
