@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'rubygems'
 require 'rubyonacid/factories/example'
 
@@ -12,6 +14,8 @@ begin
 rescue LoadError
   raise "It appears that MIDIator is not installed. 'sudo gem install midiator' to install it."
 end
+
+Thread.abort_on_exception = true
 
 midi = MIDIator::Interface.new
 midi.autodetect_driver

@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'rubyonacid/factories/all'
 
 #This method takes any Factory and uses it to determine the length of lines to print.
@@ -33,7 +35,7 @@ make_lines RubyOnAcid::SineFactory.new(:interval => 0.3)
 
 #A RepeatFactory wraps another factory, queries it, and repeats the same value a certain number of times.
 factory_to_repeat = RubyOnAcid::LoopFactory.new(:interval => 0.3)
-make_lines RubyOnAcid::RepeatFactory.new(:source_factory => factory_to_repeat, :repeat_count => 2)
+make_lines RubyOnAcid::RepeatFactory.new(:source_factories => [factory_to_repeat], :repeat_count => 2)
 
 #A CombinationFactory combines the values of two or more other factories.
 factories_to_combine = [
@@ -44,4 +46,4 @@ make_lines RubyOnAcid::CombinationFactory.new(:source_factories => factories_to_
 
 #A RoundingFactory rounds values from a source factory to a multiple of a given number.
 factory_to_round = RubyOnAcid::LoopFactory.new(:interval => 0.1)
-make_lines RubyOnAcid::RoundingFactory.new(:source_factory => factory_to_round, :nearest => 0.25)
+make_lines RubyOnAcid::RoundingFactory.new(:source_factories => [factory_to_round], :nearest => 0.25)
