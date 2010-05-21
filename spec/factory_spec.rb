@@ -57,19 +57,6 @@ describe Factory do
   end
   
   
-  describe "#tuple" do
-    
-    it "calls #generate with keys and returns array of results" do
-      @it.should_receive(:get_unit).exactly(3).times.and_return(0.25, 0.5, 0.75)
-      result = @it.tuple(:x, :y, :z)
-      result[0].should == 0.25
-      result[1].should == 0.5
-      result[2].should == 0.75
-    end
-    
-  end
-  
-  
   describe "#source_factories" do
     
     it "calls #get_unit on each and averages results" do

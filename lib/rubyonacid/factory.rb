@@ -45,12 +45,6 @@ class Factory
     all_choices[index]
   end
   
-  #Calls get_unit once for each provided key, and returns an array of results.
-  def tuple(*keys)
-    keys.map{|key| get_unit(key)}
-  end
-  
-  
 end
 
 end

@@ -1,12 +1,3 @@
-# include Curses
-# i=0
-# loop{
-#   setpos 12*(Math.sin(i)+1),40*(Math.cos(i*0.2)+1)
-#   addstr'.'
-#   i+=0.01
-#   refresh
-# }
-
 require 'rubyonacid/factory'
 
 module RubyOnAcid
@@ -14,6 +5,7 @@ module RubyOnAcid
 #Produces a Lissajous curve over pairs of keys.
 class LissajousFactory < Factory
   
+  #Value to scale Y values by.  Affects the number of loops in a curve.
   attr_accessor :scale
 
   #Counters used to calculate sine/cosine values will be incremented by this amount with each query.
@@ -26,20 +18,6 @@ class LissajousFactory < Factory
     @counters = {}
     @x_y_assignments = {}
     @next_key_assignment = :x
-  end
-  
-  def tuple(*keys)
-    @counters[keys.first] ||= 0
-    @counters[keys.first] += @interval
-    return_values = []
-    keys.each_with_index do |k, i|
-      if i % 2 == 0
-        return_values << calculate_x(@counters[keys.first])
-      else
-        return_values << calculate_y(@counters[keys.first])
-      end
-    end
-    return_values
   end
   
   def get_unit(key)

@@ -66,9 +66,13 @@ class ExampleFactory < MetaFactory
         combination_factory.source_factories << random_element(factories)
       end
       factories << combination_factory
-      
+      proximity_factory = RubyOnAcid::ProximityFactory.new
+      2.times do
+        proximity_factory.source_factories << random_element(factories)
+      end
+      factories << proximity_factory
+    
       factories
-
     end
     
     def random_element(array)

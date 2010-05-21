@@ -31,13 +31,12 @@ Thread.new do
     
     #Create and store a line of the chosen color.
     #Get width and locations of the endpoints from the factory.
-    x1, y1, x2, y2 = f.tuple(:x1, :y1, :x2, :y2)
     lines << TkcLine.new(
       canvas,
-      x1 * 400,
-      y1 * 400,
-      x2 * 400,
-      y2 * 400,
+      f.get(:x1, :max => 400),
+      f.get(:y1, :max => 400),
+      f.get(:x2, :max => 400),
+      f.get(:y2, :max => 400),
       :width => f.get(:width, :min => 5, :max => 400),
       :fill => color
     )
@@ -48,7 +47,7 @@ Thread.new do
     
     #Delete the oldest line if we have accumulated too many.
     lines.shift.delete if lines.length > 200
-        
+
   end
 end
 
