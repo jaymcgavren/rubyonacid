@@ -5,9 +5,7 @@ module RubyOnAcid
 #Allows values to be assigned from an external source.
 class InputFactory < Factory
 
-  #A factory to pull values from in the event no values are stored for a given key.
-  attr_accessor :default_factory
-  
+  #Takes a hash with all keys supported by Factory.
   def initialize
     super
     @input_values = {}
@@ -18,12 +16,13 @@ class InputFactory < Factory
   
   #Retrieves the next stored value for the given key.
   #The key that values are pulled from will not necessarily be the same as that passed to put() - value queue keys are assigned to get_unit() keys at random.
+  #Retrieve average from source factories if no queued values are available, or zero if no source factories are assigned.
   def get_unit(key)
     current_key = assigned_key(key)
     if @input_values[current_key] and @input_values[current_key].length > 0
-      return scale(current_key, @input_values[current_key].shift) || default_value(key)
+      return scale(current_key, @input_values[current_key].shift) || super(current_key) || 0.0
     else
-      return default_value(key)
+      return super(current_key) || 0.0
     end
   end
 
@@ -52,10 +51,6 @@ class InputFactory < Factory
   end
   
   private
-  
-    def default_value(key)
-      @default_factory ? @default_factory.get_unit(key) : 0.0
-    end
   
     def assigned_key(key)
       return @key_assignments[key] if @key_assignments[key]

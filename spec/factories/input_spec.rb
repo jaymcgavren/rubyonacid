@@ -11,12 +11,11 @@ describe InputFactory do
   end
 
   describe "general behavior" do
-
+  
     before :each do
-      @it.put(:foo, 0.0)
-      @it.put(:foo, 1.0)
+      @it.source_factories << mock('Factory', :get_unit => 0.2)
     end
-
+  
     it_should_behave_like "a factory"
     
   end
