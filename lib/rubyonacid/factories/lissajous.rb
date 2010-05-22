@@ -11,6 +11,9 @@ class LissajousFactory < Factory
   #Counters used to calculate sine/cosine values will be incremented by this amount with each query.
   attr_accessor :interval
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :scale => 0.2
+  #  :interval => 0.1
   def initialize(options = {})
     super
     @scale = options[:scale] || 0.2
@@ -20,6 +23,8 @@ class LissajousFactory < Factory
     @next_key_assignment = :x
   end
   
+  #Assigns the given key to receive either X or Y values from the Lissajous curve, if it isn't already assigned.
+  #Then returns the appropriate value for the key.
   def get_unit(key)
     unless @x_y_assignments[key]
       @x_y_assignments[key] = @next_key_assignment

@@ -7,6 +7,7 @@ module RubyOnAcid
 class ExampleFactory < MetaFactory
 
   
+  #Takes a hash with all keys supported by Factory.
   def initialize(options = {})
     super
     self.source_factories = create_factories

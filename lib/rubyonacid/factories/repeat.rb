@@ -8,6 +8,8 @@ class RepeatFactory < Factory
   #The number of times to repeat a value for a given key.
   attr_accessor :repeat_count
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :repeat_count => 2
   def initialize(options = {})
     super
     @repeat_count = options[:repeat_count] || 2
@@ -15,7 +17,7 @@ class RepeatFactory < Factory
     @values = {}
   end
   
-  #Returns the value of get_unit on the source factory the assigned number of times.
+  #Returns the value of get_unit from the source factories the assigned number of times.
   def get_unit(key)
     @repeat_counts[key] ||= 0
     if @repeat_counts[key] >= @repeat_count

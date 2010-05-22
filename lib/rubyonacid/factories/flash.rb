@@ -8,6 +8,8 @@ class FlashFactory < Factory
   #The number of times to return a value before switching.
   attr_accessor :interval
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :interval => 3
   def initialize(options = {})
     super
     @counters = {}

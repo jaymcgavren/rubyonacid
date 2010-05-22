@@ -4,9 +4,11 @@ module RubyOnAcid
 #Should not normally be instantiated directly.
 class Factory
 
-  #An array of factories to be queried by get_unit. 
+  #An array of factories to be queried by get_unit and have their return values averaged.
   attr_accessor :source_factories
 
+  #Takes a hash with these keys and defaults:
+  #  :source_factories => []
   def initialize(options = {})
     @minimums = {}
     @maximums = {}
@@ -15,6 +17,7 @@ class Factory
   
   #Calls #get_unit(key) on each source factory and averages results.
   def get_unit(key)
+    return nil if source_factories.empty?
     values = source_factories.map{|factory| factory.get_unit(key)}
     average = values.inject(0.0){|sum, value| sum += value} / source_factories.size
   end

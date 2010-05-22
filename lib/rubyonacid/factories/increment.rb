@@ -13,6 +13,8 @@ class IncrementFactory < Factory
     @counters.each_key{|k| @counters[k] = @start_value}
   end
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :interval => 0.001
   def initialize(options = {})
     super
     @start_value = 0.0

@@ -2,13 +2,14 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
+#A Factory that "pulls" source factory values toward an attractor factory's value.
 class AttractionFactory < Factory
-  
-  SQUARE_ROOT_OF_TWO = Math.sqrt(2.0)
   
   #Values from source_factory will be "pulled" toward values from this factory.
   attr_accessor :attractor_factory
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :attractor_factory => nil
   def initialize(options = {})
     super
     @source_factory = options[:source_factory]
@@ -19,7 +20,6 @@ class AttractionFactory < Factory
   #The source_factories average will be adjusted to be closer to the attractor_factory value.
   #The closer the values are, the greater the adjustment.
   def get_unit(key)
-    # force = delta * @magnetism / (distance * Jemini::Math::SQUARE_ROOT_OF_TWO)
     value = super
     attractor_value = @attractor_factory.get_unit(key)
     distance = attractor_value - value
@@ -30,6 +30,3 @@ class AttractionFactory < Factory
 end
 
 end
-
-# 0.5 1.0 0.5
-# 0.7 1.0 0.3

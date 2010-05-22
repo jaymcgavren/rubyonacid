@@ -12,10 +12,12 @@ class LoopFactory < Factory
     @interval = value
   end
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :interval => 0.01
   def initialize(options = {})
     super
     @counters = {}
-    @interval = options[:interval] || 0.01
+    self.interval = options[:interval] || 0.01
   end
   
   #Increment counter for key, looping it around to opposite side if it exits boundary.

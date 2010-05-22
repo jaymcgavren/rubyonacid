@@ -8,11 +8,14 @@ class RoundingFactory < Factory
   #Source values will be rounded to the nearest multiple of this value.
   attr_accessor :nearest
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :nearest => 0.1
   def initialize(options = {})
     super
     @nearest = options[:nearest] || 0.1
   end
   
+  #Get values from source factories and round result to assigned nearest multiple. 
   def get_unit(key)
     round_to(super, @nearest)
   end

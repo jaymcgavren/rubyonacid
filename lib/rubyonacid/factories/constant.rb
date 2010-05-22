@@ -12,6 +12,8 @@ class ConstantFactory < Factory
     @value = value
   end
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :value => 0.0
   def initialize(options = {})
     super
     @value = options[:value] || 0.0

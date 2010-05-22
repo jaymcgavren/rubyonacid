@@ -2,6 +2,7 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
+#Combines values from source factories together in the prescribed manner.
 class CombinationFactory < Factory
   
   #Causes get_unit value of all source_factories to be added together.
@@ -17,14 +18,16 @@ class CombinationFactory < Factory
   #Causes get_unit values above 1 to wrap to 0 and values below 0 to wrap to 1.
   WRAP = :wrap
   
-  #The operation get_unit will perform.
+  #The operation get_unit will perform to combine source factory values.
   attr_accessor :operation
   #The method get_unit will use to constrain values between 0 and 1.
   attr_accessor :constrain_mode
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :operation => ADD
+  #  :constrain_mode => WRAP
   def initialize(options = {})
     super
-    @source_factories = options[:source_factories] || []
     @operation = options[:operation] || ADD
     @constrain_mode = options[:constrain_mode] || WRAP
   end

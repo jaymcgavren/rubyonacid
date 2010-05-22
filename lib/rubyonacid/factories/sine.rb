@@ -8,6 +8,8 @@ class SineFactory < Factory
   #Counters used to calculate sine values will be incremented by this amount with each query.
   attr_accessor :interval
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :interval => 0.1
   def initialize(options = {})
     super
     @counters = {}

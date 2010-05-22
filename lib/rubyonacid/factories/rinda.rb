@@ -12,6 +12,9 @@ class RindaFactory < Factory
   #The URI to connect to.  Default is "druby://127.0.0.1:7632" (7632 == RNDA).
   attr_accessor :uri
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :uri => "druby://127.0.0.1:7632"
+  #  :timeout => 0
   def initialize(options = {})
     super
     @uri = options[:uri] || "druby://127.0.0.1:7632"

@@ -8,6 +8,8 @@ class SkipFactory < Factory
   #The percentage odds that the factory will return 0 instead of 1.
   attr_accessor :odds
   
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :odds => 0.1
   def initialize(options = {})
     super
     @odds = options[:odds] || 0.1
