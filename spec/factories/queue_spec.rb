@@ -1,13 +1,13 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-require "rubyonacid/factories/input"
+require "rubyonacid/factories/queue"
 require "shared_factory_specs"
 
 include RubyOnAcid
 
-describe InputFactory do
+describe QueueFactory do
 
   before :each do
-    @it = InputFactory.new
+    @it = QueueFactory.new
   end
 
   describe "general behavior" do
@@ -27,9 +27,10 @@ describe InputFactory do
       @it.get(:x).should == 0.1
     end
     
-    it "stores only latest input value" do
+    it "retrieves multiple queue values in order" do
       @it.put(:x, 0.1)
       @it.put(:x, 0.2)
+      @it.get(:x).should == 0.1
       @it.get(:x).should == 0.2
     end
     
@@ -38,14 +39,13 @@ describe InputFactory do
       @it.get(:y).should == 0.1
     end
     
-    it "returns 0 if a key has no values" do
-      @it.get(:z).should == 0.0
-    end
-  
-    it "returns 0 only after mapping a different key" do
+    it "returns 0 if a key is assigned but has no values" do
+      @it.put(:x, 0.1)
       @it.put(:x, 0.2)
+      @it.get(:y).should == 0.1
       @it.get(:y).should == 0.2
-      @it.get(:z).should == 0.0
+      @it.put(:z, 0.3)
+      @it.get(:y).should == 0.0
     end
   
   end
@@ -54,39 +54,39 @@ describe InputFactory do
     
     it "scales highest seen values for a key to 0 to 1 range" do
       @it.put(:x, 0.0)
-      @it.get(:x).should be_close(0.0, MARGIN)
       @it.put(:x, 1.0)
+      @it.get(:x).should be_close(0.0, MARGIN)
       @it.get(:x).should be_close(1.0, MARGIN)
+      @it.put(:x, 0.0)
+      @it.put(:x, 1.0)
       @it.put(:x, 2.0)
-      @it.get(:x).should be_close(1.0, MARGIN)
-      @it.put(:x, 1.0)
+      @it.get(:x).should be_close(0.0, MARGIN)
       @it.get(:x).should be_close(0.5, MARGIN)
-      @it.put(:x, 0.0)
-      @it.get(:x).should be_close(0.0, MARGIN)
-      @it.put(:x, 4.0)
       @it.get(:x).should be_close(1.0, MARGIN)
-      @it.put(:x, 3.0)
-      @it.get(:x).should be_close(0.75, MARGIN)
       @it.put(:x, 0.0)
+      @it.put(:x, 3.0)
+      @it.put(:x, 4.0)
       @it.get(:x).should be_close(0.0, MARGIN)
+      @it.get(:x).should be_close(0.75, MARGIN)
+      @it.get(:x).should be_close(1.0, MARGIN)
     end
     
     it "scales lowest seen values for a key to 0 to 1 range" do
       @it.put(:x, 0.0)
-      @it.get(:x).should be_close(0.0, MARGIN)
       @it.put(:x, 1.0)
-      @it.get(:x).should be_close(1.0, MARGIN)
-      @it.put(:x, -2.0)
       @it.get(:x).should be_close(0.0, MARGIN)
-      @it.put(:x, 1.0)
       @it.get(:x).should be_close(1.0, MARGIN)
       @it.put(:x, 0.0)
-      @it.get(:x).should be_close(0.666, MARGIN)
-      @it.put(:x, -2.0)
-      @it.get(:x).should be_close(0.0, MARGIN)
-      @it.put(:x, 2.0)
-      @it.get(:x).should be_close(1.0, MARGIN)
       @it.put(:x, 1.0)
+      @it.put(:x, -2.0)
+      @it.get(:x).should be_close(0.666, MARGIN)
+      @it.get(:x).should be_close(1.0, MARGIN)
+      @it.get(:x).should be_close(0.0, MARGIN)
+      @it.put(:x, -2.0)
+      @it.put(:x, 2.0)
+      @it.put(:x, 1.0)
+      @it.get(:x).should be_close(0.0, MARGIN)
+      @it.get(:x).should be_close(1.0, MARGIN)
       @it.get(:x).should be_close(0.75, MARGIN)
     end
     

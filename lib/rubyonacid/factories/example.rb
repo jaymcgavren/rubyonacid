@@ -10,6 +10,11 @@ class ExampleFactory < MetaFactory
   #Takes a hash with all keys supported by Factory.
   def initialize(options = {})
     super
+    reset_assignments
+  end
+  
+  def reset_assignments
+    super
     self.source_factories = create_factories
   end
   
