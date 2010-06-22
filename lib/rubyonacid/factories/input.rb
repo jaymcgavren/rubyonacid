@@ -56,7 +56,11 @@ class InputFactory < Factory
     def assigned_key(key)
       return @key_assignments[key] if @key_assignments[key]
       available_keys = @input_value.keys - @key_assignments.values
-      @key_assignments[key] = available_keys[rand(available_keys.length)]
+      if available_keys.include?(key)
+        @key_assignments[key] = key
+      else
+        @key_assignments[key] = available_keys[rand(available_keys.length)]
+      end
       @key_assignments[key]
     end
     

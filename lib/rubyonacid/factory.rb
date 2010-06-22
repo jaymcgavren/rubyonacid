@@ -10,14 +10,12 @@ class Factory
   #Takes a hash with these keys and defaults:
   #  :source_factories => []
   def initialize(options = {})
-    @minimums = {}
-    @maximums = {}
     @source_factories = options[:source_factories] || []
   end
   
   #Calls #get_unit(key) on each source factory and averages results.
   def get_unit(key)
-    return nil if source_factories.empty?
+    return 0.0 if source_factories.empty?
     values = source_factories.map{|factory| factory.get_unit(key)}
     average = values.inject(0.0){|sum, value| sum += value} / source_factories.size
   end
@@ -29,9 +27,9 @@ class Factory
   
   #Calls get_unit with key to get value between 0.0 and 1.0, then converts that value to be between given minimum and maximum.
   def get(key, options = {})
-    @minimums[key] = (options[:min] || @minimums[key] || 0.0)
-    @maximums[key] = (options[:max] || @maximums[key] || (@minimums[key] > 1.0 ? @minimums[key] + 1.0 : 1.0))
-    (get_unit(key) * (@maximums[key] - @minimums[key])) + @minimums[key]
+    options[:min] ||= 0.0
+    options[:max] ||= options[:min] + 1.0
+    (get_unit(key) * (options[:max] - options[:min])) + options[:min]
   end
   
   #Returns true if get_unit(key) returns greater than 0.5.
