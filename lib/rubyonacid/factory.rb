@@ -26,6 +26,9 @@ class Factory
   end
   
   #Calls get_unit with key to get value between 0.0 and 1.0, then converts that value to be between given minimum and maximum.
+  #Takes an optional hash with these keys and defaults:
+  #  :min => 0.0
+  #  :max => :min + 1.0
   def get(key, options = {})
     options[:min] ||= 0.0
     options[:max] ||= options[:min] + 1.0

@@ -2,7 +2,7 @@ require 'rubyonacid/factory'
 
 module RubyOnAcid
 
-#Allows values to be assigned from an external source.
+#Allows values to be assigned from an external source, storing values over time.
 class QueueFactory < Factory
 
   #Takes a hash with all keys supported by Factory.

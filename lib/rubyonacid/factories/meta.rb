@@ -12,9 +12,11 @@ class MetaFactory < Factory
   end
   
   #Assign a factory for subsequent get_unit requests for the given key.
-  def assign_factory(key, factory)
-    @assigned_factories[key] = factory
-  end
+  def assign_factory(key, factory); @assigned_factories[key] = factory; end
+  #Get the factory assigned for a given key.
+  def assigned_factory(key); @assigned_factories[key]; end
+  #Get an Array with all keys currently assigned.
+  def assigned_keys; @assigned_factories.keys; end
   
   #Returns the value of get_unit from the Factory assigned to the given key.
   #When a key is needed that a Factory is not already assigned to, one will be assigned at random from the pool of source factories.
@@ -26,6 +28,7 @@ class MetaFactory < Factory
   #Clear all factory assignments.
   def reset_assignments
     @assigned_factories.clear
+    return true
   end
 
 end
