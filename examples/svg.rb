@@ -16,10 +16,13 @@ end
 def shapes(factory)
   shapes = []
   1000.times do
-    shapes << case factory.choose(:shape, :rectangle, :ellipse, :line)
-    when :rectangle : rectangle(factory)
-    when :ellipse : ellipse(factory)
-    when :line : line(factory)
+    shapes << case factory.choose(:shape, :rectangle, :ellipse)
+    when :rectangle
+      rectangle(factory)
+    when :ellipse
+      ellipse(factory)
+    when :line
+      line(factory)
     end
   end
   shapes
@@ -33,7 +36,6 @@ def rectangle(factory)
       width='#{factory.get(:width, :max => 300)}'
       height='#{factory.get(:height, :max => 300)}'
       style='#{style(factory)}'
-      transform='#{transform(factory)}'
     />
   EOD
 end
@@ -46,21 +48,6 @@ def ellipse(factory)
       rx='#{factory.get(:width, :max => 300)}'
       ry='#{factory.get(:height, :max => 300)}'
       style='#{style(factory)}'
-      transform='#{transform(factory)}'
-    />
-  EOD
-end
-
-def line(factory)
-  return <<-EOD
-    <line
-      x1='#{factory.get(:x, :max => 100)}%'
-      y1='#{factory.get(:y, :max => 100)}%'
-      x2='#{factory.get(:x2, :max => 100)}%'
-      y2='#{factory.get(:y2, :max => 100)}%'
-      stroke='#{color(factory)}'
-      stroke-width='#{factory.get(:width, :max => 20)}'
-      stroke-opacity='#{factory.get(:opacity)}'
     />
   EOD
 end
@@ -75,11 +62,11 @@ end
 
 def transform(factory)
   return <<-EOD
+    translate(#{factory.get(:x_translate, :max => 10)}, #{factory.get(:y_translate, :max => 10)})
     rotate(#{factory.get(:rotation, :max => 360)})
-    translate(#{factory.get(:x_translate, :max => 100)}, #{factory.get(:y_translate, :max => 100)})
     scale(#{factory.get(:scale, :max => 2)})
-    skewX(#{factory.get(:x_skew, :max => 360)})
-    skewY(#{factory.get(:y_skew, :max => 360)})
+    skewX(#{factory.get(:x_skew, :max => 45)})
+    skewY(#{factory.get(:y_skew, :max => 45)})
   EOD
 end
 
