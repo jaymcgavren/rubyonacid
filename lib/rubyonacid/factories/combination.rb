@@ -17,6 +17,8 @@ class CombinationFactory < Factory
   CONSTRAIN = :constrain
   #Causes get_unit values above 1 to wrap to 0 and values below 0 to wrap to 1.
   WRAP = :wrap
+  #Causes get_unit values to "bounce" between 0 and 1.
+  REBOUND = :rebound
   
   #The operation get_unit will perform to combine source factory values.
   attr_accessor :operation
@@ -70,6 +72,13 @@ class CombinationFactory < Factory
         end
       when WRAP
         return value % 1.0
+      when REBOUND
+        value %= 2.0
+        if value < 1.0
+          return value
+        else
+          return 1.0 - (value % 1.0)
+        end
       else
         raise "invalid constrain mode - must be CONSTRAIN or WRAP"
       end

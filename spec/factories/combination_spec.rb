@@ -53,6 +53,44 @@ describe CombinationFactory do
       @it.get_unit(:x).should be_close(0.2, MARGIN)
     end
     
+    it "can make value 'rebound' off boundary" do
+      @it.constrain_mode = CombinationFactory::REBOUND
+      @it.source_factories = [
+        mock('Factory', :get_unit => 0.4),
+        mock('Factory', :get_unit => 0.7)
+      ]
+      @it.get_unit(:x).should be_close(0.9, MARGIN)
+      @it.source_factories = [
+        mock('Factory', :get_unit => 1.0),
+        mock('Factory', :get_unit => 1.0),
+        mock('Factory', :get_unit => 0.1)
+      ]
+      @it.get_unit(:x).should be_close(0.1, MARGIN)
+      @it.source_factories = [
+        mock('Factory', :get_unit => 0.1),
+        mock('Factory', :get_unit => 0.1)
+      ]
+      @it.get_unit(:x).should be_close(0.2, MARGIN)
+      @it.operation = CombinationFactory::SUBTRACT
+      @it.source_factories = [
+        mock('Factory', :get_unit => 0.1),
+        mock('Factory', :get_unit => 0.4)
+      ]
+      @it.get_unit(:x).should be_close(0.3, MARGIN)
+      @it.source_factories = [
+        mock('Factory', :get_unit => 0.1),
+        mock('Factory', :get_unit => 0.5),
+        mock('Factory', :get_unit => 0.5)
+      ]
+      @it.get_unit(:x).should be_close(0.9, MARGIN)
+      @it.source_factories = [
+        mock('Factory', :get_unit => 0.1),
+        mock('Factory', :get_unit => 1.0),
+        mock('Factory', :get_unit => 1.0)
+      ]
+      @it.get_unit(:x).should be_close(0.1, MARGIN)
+    end
+    
   end
   
   describe "subtraction" do

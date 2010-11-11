@@ -59,6 +59,17 @@ class ExampleFactory < MetaFactory
       )
     end
     combination_factory = RubyOnAcid::CombinationFactory.new
+    combination_factory.constrain_mode = random_factory.choose(:constrain_mode,
+      CombinationFactory::CONSTRAIN,
+      CombinationFactory::WRAP,
+      CombinationFactory::REBOUND
+    )
+    combination_factory.operation = random_factory.choose(:operation,
+      CombinationFactory::ADD,
+      CombinationFactory::SUBTRACT,
+      CombinationFactory::MULTIPLY,
+      CombinationFactory::DIVIDE
+    )
     2.times do
       combination_factory.source_factories << random_element(factories)
     end
