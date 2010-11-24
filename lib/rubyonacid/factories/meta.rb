@@ -5,6 +5,9 @@ module RubyOnAcid
 #The MetaFactory assigns its source factories to requested value types.
 class MetaFactory < Factory
   
+  #A hash with the Factories assigned to each key.
+  attr_reader :assigned_factories
+  
   #Takes a hash with all keys supported by Factory.
   def initialize(options = {})
     super
