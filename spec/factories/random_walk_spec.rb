@@ -18,10 +18,10 @@ describe RandomWalkFactory do
     values << @it.get_unit(:x)
     @it.interval = 0.3
     values << @it.get_unit(:x)
-    values[1].should be_close(values[0], 0.3)
+    values[1].should be_within(0.3).of(values[0])
     @it.interval = 0.01
     values << @it.get_unit(:x)
-    values[2].should be_close(values[1], 0.01)
+    values[2].should be_within(0.01).of(values[1])
   end
   
   it "adds random amount within given interval to source factories result if source factories are assigned"

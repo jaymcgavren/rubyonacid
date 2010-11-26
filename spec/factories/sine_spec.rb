@@ -15,26 +15,26 @@ describe SineFactory do
   
   it "loops between 0 and 1" do
     @it.interval = 1.0
-    @it.get_unit(:x).should be_close(0.920, MARGIN)
-    @it.get_unit(:x).should be_close(0.954, MARGIN)
-    @it.get_unit(:x).should be_close(0.570, MARGIN)
-    @it.get_unit(:x).should be_close(0.122, MARGIN)
-    @it.get_unit(:x).should be_close(0.020, MARGIN)
-    @it.get_unit(:x).should be_close(0.360, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.920)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.954)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.570)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.122)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.020)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.360)
   end
   
   it "can take a different interval" do
     @it.interval = 0.5
-    @it.get_unit(:x).should be_close(0.740, MARGIN)
-    @it.get_unit(:x).should be_close(0.920, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.740)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.920)
   end
   
   it "handles multiple keys" do
     @it.interval = 1.0
-    @it.get_unit(:x).should be_close(0.920, MARGIN)
-    @it.get_unit(:y).should be_close(0.920, MARGIN)
-    @it.get_unit(:x).should be_close(0.954, MARGIN)
-    @it.get_unit(:y).should be_close(0.954, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.920)
+    @it.get_unit(:y).should be_within(MARGIN).of(0.920)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.954)
+    @it.get_unit(:y).should be_within(MARGIN).of(0.954)
   end
   
 end

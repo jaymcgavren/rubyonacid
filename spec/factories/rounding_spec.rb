@@ -25,13 +25,13 @@ describe RoundingFactory do
     @it.source_factories << source_factory
     @it.nearest = 0.3
     source_factory.should_receive(:get_unit).and_return(0.7)
-    @it.get_unit(:x).should be_close(0.6, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.6)
     source_factory.should_receive(:get_unit).and_return(0.8)
-    @it.get_unit(:x).should be_close(0.9, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.9)
     source_factory.should_receive(:get_unit).and_return(0.9)
-    @it.get_unit(:x).should be_close(0.9, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.9)
     source_factory.should_receive(:get_unit).and_return(1.0)
-    @it.get_unit(:x).should be_close(0.9, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.9)
   end
   
   it "can round to multiples of 0.2" do
@@ -39,15 +39,15 @@ describe RoundingFactory do
     @it.source_factories << source_factory
     @it.nearest = 0.2
     source_factory.should_receive(:get_unit).and_return(0.0)
-    @it.get_unit(:x).should be_close(0.0, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.0)
     source_factory.should_receive(:get_unit).and_return(0.11)
-    @it.get_unit(:x).should be_close(0.2, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.2)
     source_factory.should_receive(:get_unit).and_return(0.2)
-    @it.get_unit(:x).should be_close(0.2, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.2)
     source_factory.should_receive(:get_unit).and_return(0.31)
-    @it.get_unit(:x).should be_close(0.4, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.4)
     source_factory.should_receive(:get_unit).and_return(0.4)
-    @it.get_unit(:x).should be_close(0.4, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.4)
   end
   
   it "can round to multiples of 1.0" do
@@ -55,15 +55,15 @@ describe RoundingFactory do
     @it.source_factories << source_factory
     @it.nearest = 1.0
     source_factory.should_receive(:get_unit).and_return(0.0)
-    @it.get_unit(:x).should be_close(0.0, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.0)
     source_factory.should_receive(:get_unit).and_return(0.4)
-    @it.get_unit(:x).should be_close(0.0, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.0)
     source_factory.should_receive(:get_unit).and_return(0.51)
-    @it.get_unit(:x).should be_close(1.0, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(1.0)
     source_factory.should_receive(:get_unit).and_return(0.9)
-    @it.get_unit(:x).should be_close(1.0, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(1.0)
     source_factory.should_receive(:get_unit).and_return(1.0)
-    @it.get_unit(:x).should be_close(1.0, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(1.0)
   end
   
 end

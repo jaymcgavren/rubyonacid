@@ -25,20 +25,20 @@ describe LissajousFactory do
     
     it "Returns x/y coordinates" do
       @it.interval = 0.5
-      @it.get_unit(:x).should be_close(0.739, MARGIN)
-      @it.get_unit(:y).should be_close(0.990, MARGIN)
-      @it.get_unit(:x).should be_close(0.921, MARGIN)
-      @it.get_unit(:y).should be_close(0.990, MARGIN)
-      @it.get_unit(:x).should be_close(0.998, MARGIN)
-      @it.get_unit(:y).should be_close(0.978, MARGIN)
+      @it.get_unit(:x).should be_within(MARGIN).of(0.739)
+      @it.get_unit(:y).should be_within(MARGIN).of(0.990)
+      @it.get_unit(:x).should be_within(MARGIN).of(0.921)
+      @it.get_unit(:y).should be_within(MARGIN).of(0.990)
+      @it.get_unit(:x).should be_within(MARGIN).of(0.998)
+      @it.get_unit(:y).should be_within(MARGIN).of(0.978)
     end
     
     it "returns x for the first assigned key, y for the second, x again for the third, etc." do
       @it.interval = 0.5
-      @it.get_unit(:x).should be_close(0.739, MARGIN)
-      @it.get_unit(:y).should be_close(0.997, MARGIN)
-      @it.get_unit(:z).should be_close(0.739, MARGIN)
-      @it.get_unit(:x).should be_close(0.921, MARGIN)
+      @it.get_unit(:x).should be_within(MARGIN).of(0.739)
+      @it.get_unit(:y).should be_within(MARGIN).of(0.997)
+      @it.get_unit(:z).should be_within(MARGIN).of(0.739)
+      @it.get_unit(:x).should be_within(MARGIN).of(0.921)
     end
     
   end  

@@ -15,28 +15,28 @@ describe LoopFactory do
   
   it "Loops to 0 if increment is positive" do
     @it.interval = 0.3
-    @it.get_unit(:x).should be_close(0.3, MARGIN)
-    @it.get_unit(:x).should be_close(0.6, MARGIN)
-    @it.get_unit(:x).should be_close(0.9, MARGIN)
-    @it.get_unit(:x).should be_close(0.2, MARGIN)
-    @it.get_unit(:x).should be_close(0.5, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.3)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.6)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.9)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.2)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.5)
   end
   
   it "Loops to 1 if increment is negative" do
     @it.interval = -0.3
-    @it.get_unit(:x).should be_close(0.7, MARGIN)
-    @it.get_unit(:x).should be_close(0.4, MARGIN)
-    @it.get_unit(:x).should be_close(0.1, MARGIN)
-    @it.get_unit(:x).should be_close(0.8, MARGIN)
-    @it.get_unit(:x).should be_close(0.5, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.7)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.4)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.1)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.8)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.5)
   end
   
   it "handles multiple keys" do
     @it.interval = 0.3
-    @it.get_unit(:x).should be_close(0.3, MARGIN)
-    @it.get_unit(:y).should be_close(0.3, MARGIN)
-    @it.get_unit(:x).should be_close(0.6, MARGIN)
-    @it.get_unit(:y).should be_close(0.6, MARGIN)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.3)
+    @it.get_unit(:y).should be_within(MARGIN).of(0.3)
+    @it.get_unit(:x).should be_within(MARGIN).of(0.6)
+    @it.get_unit(:y).should be_within(MARGIN).of(0.6)
   end
   
 end

@@ -37,7 +37,7 @@ describe ProximityFactory do
       @it.source_factories << source_factory
       @it.target = 0.5
       source_factory.should_receive(:get_unit).with(:x).and_return(0.5)
-      @it.get_unit(:x).should be_close(1.0, MARGIN)
+      @it.get_unit(:x).should be_within(MARGIN).of(1.0)
     end
     
     it "should approach zero as distance approaches 1.0" do
@@ -45,7 +45,7 @@ describe ProximityFactory do
       @it.source_factories << source_factory
       @it.target = 1.0
       source_factory.should_receive(:get_unit).with(:x).and_return(0.0)
-      @it.get_unit(:x).should be_close(0.0, MARGIN)
+      @it.get_unit(:x).should be_within(MARGIN).of(0.0)
     end
   end
   

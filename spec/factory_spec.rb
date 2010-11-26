@@ -70,7 +70,7 @@ describe Factory do
       factory2.should_receive(:get_unit).and_return(0.2)
       factory3.should_receive(:get_unit).and_return(0.3)
       result = @it.get_unit(:x)
-      result.should be_close(0.2, MARGIN)
+      result.should be_within(MARGIN).of(0.2)
     end
     
   end
