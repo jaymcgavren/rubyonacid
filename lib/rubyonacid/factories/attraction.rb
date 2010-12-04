@@ -23,8 +23,15 @@ class AttractionFactory < Factory
     value = super
     attractor_value = @attractor_factory.get_unit(key)
     distance = attractor_value - value
-    value += distance / 2.0
-    value
+    attraction = distance == 0.0 ? 0.0 : 1.0 / distance * 0.1
+    return_value = value + attraction
+    if value < attractor_value and return_value > attractor_value
+      return attractor_value
+    elsif value > attractor_value and return_value < attractor_value
+      return attractor_value
+    else
+      return return_value
+    end
   end
 
 end

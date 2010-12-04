@@ -27,15 +27,34 @@ describe AttractionFactory do
       @it.source_factories << mock('Factory', :get_unit => 0.0)
       @it.attractor_factory = mock('Factory', :get_unit => 1.0)
       @it.get_unit(:x).should > 0.0
+      @it.attractor_factory = mock('Factory', :get_unit => 0.9)
+      @it.get_unit(:x).should > 0.0
+      @it.attractor_factory = mock('Factory', :get_unit => 0.5)
+      @it.get_unit(:x).should > 0.0
+      @it.attractor_factory = mock('Factory', :get_unit => 0.1)
+      @it.get_unit(:x).should > 0.0
+      @it.attractor_factory = mock('Factory', :get_unit => 0.1)
+      @it.get_unit(:x).should > 0.0
     end
-  
+    
     it "exerts greater attraction if values are closer" do
-      pending
       @it.source_factories << mock('Factory', :get_unit => 0.0)
       @it.attractor_factory = mock('Factory')
       @it.attractor_factory.should_receive(:get_unit).and_return(1.0)
       distant_value = @it.get_unit(:x)
-      @it.attractor_factory.should_receive(:get_unit).and_return(0.5)
+      @it.attractor_factory.should_receive(:get_unit).and_return(0.9)
+      close_value = @it.get_unit(:x)
+      close_value.should > distant_value
+      distant_value = close_value
+      @it.attractor_factory.should_receive(:get_unit).and_return(0.8)
+      close_value = @it.get_unit(:x)
+      close_value.should > distant_value
+      distant_value = close_value
+      @it.attractor_factory.should_receive(:get_unit).and_return(0.2)
+      close_value = @it.get_unit(:x)
+      close_value.should > distant_value
+      distant_value = close_value
+      @it.attractor_factory.should_receive(:get_unit).and_return(0.0)
       close_value = @it.get_unit(:x)
       close_value.should > distant_value
     end

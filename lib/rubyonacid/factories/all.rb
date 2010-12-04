@@ -1,3 +1,4 @@
+require 'rubyonacid/factories/attraction'
 require 'rubyonacid/factories/combination'
 require 'rubyonacid/factories/constant'
 require 'rubyonacid/factories/flash'

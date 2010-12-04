@@ -74,7 +74,6 @@ class ExampleFactory < MetaFactory
       combination_factory.source_factories << random_element(factories)
     end
     factories << combination_factory
-4.times do
     weighted_factory = RubyOnAcid::WeightedFactory.new
     2.times do
       source_factory = random_element(factories)
@@ -82,12 +81,18 @@ class ExampleFactory < MetaFactory
       weighted_factory.weights[source_factory] = rand
     end
     factories << weighted_factory
-end
     proximity_factory = RubyOnAcid::ProximityFactory.new
     2.times do
       proximity_factory.source_factories << random_element(factories)
     end
     factories << proximity_factory
+8.times do
+    attraction_factory = RubyOnAcid::AttractionFactory.new(
+      :attractor_factory => random_element(factories)
+    )
+    attraction_factory.source_factories << random_element(factories)
+    factories << attraction_factory
+end
   
     factories
     
