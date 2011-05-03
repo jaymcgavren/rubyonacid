@@ -1,4 +1,4 @@
-!http://github.com/jaymcgavren/rubyonacid/raw/master/generators.png!
+!https://github.com/jaymcgavren/rubyonacid/raw/master/generators.png!
 
 
 h1. Ruby On Acid
