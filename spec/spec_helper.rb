@@ -7,6 +7,6 @@ require 'rspec/autorun'
 #Allowed margin of error for be_close.
 MARGIN = 0.01
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   
 end

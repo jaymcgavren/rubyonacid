@@ -38,6 +38,7 @@ describe AttractionFactory do
     end
     
     it "exerts greater attraction if values are closer" do
+      pending
       @it.source_factories << mock('Factory', :get_unit => 0.0)
       @it.attractor_factory = mock('Factory')
       @it.attractor_factory.should_receive(:get_unit).and_return(1.0)
