@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'spec_helper')
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec_helper'))
 require "rubyonacid/factories/combination"
 require "shared_factory_specs"
 
@@ -6,15 +6,15 @@ include RubyOnAcid
 
 describe CombinationFactory do
 
-  before :each do
-    @it = CombinationFactory.new
+  subject do
+    CombinationFactory.new
   end
 
   describe "general behavior" do
   
     before :each do
-      @it.source_factories << mock('Factory', :get_unit => 0.2)
-      @it.source_factories << mock('Factory', :get_unit => 0.3)
+      subject.source_factories << mock('Factory', :get_unit => 0.2)
+      subject.source_factories << mock('Factory', :get_unit => 0.3)
     end
   
     it_should_behave_like "a factory"
@@ -24,71 +24,71 @@ describe CombinationFactory do
   describe "#get_unit" do
       
     it "retrieves values from source factories and adds them together" do
-      @it.source_factories << mock('Factory', :get_unit => 0.2)
-      @it.source_factories << mock('Factory', :get_unit => 0.3)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.5)
-      @it.source_factories << mock('Factory', :get_unit => 0.1)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.6)
+      subject.source_factories << mock('Factory', :get_unit => 0.2)
+      subject.source_factories << mock('Factory', :get_unit => 0.3)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.5)
+      subject.source_factories << mock('Factory', :get_unit => 0.1)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.6)
     end
   
     it "can constrain sum to 0.0 through 1.0" do
-      @it.constrain_mode = CombinationFactory::CONSTRAIN
-      @it.source_factories << mock('Factory', :get_unit => 0.2)
-      @it.source_factories << mock('Factory', :get_unit => 0.3)
-      @it.source_factories << mock('Factory', :get_unit => 0.7)
-      @it.get_unit(:x).should be_within(MARGIN).of(1.0)
+      subject.constrain_mode = CombinationFactory::CONSTRAIN
+      subject.source_factories << mock('Factory', :get_unit => 0.2)
+      subject.source_factories << mock('Factory', :get_unit => 0.3)
+      subject.source_factories << mock('Factory', :get_unit => 0.7)
+      subject.get_unit(:x).should be_within(MARGIN).of(1.0)
     end
     
     it "uses wrap mode by default" do
-      @it.source_factories << mock('Factory', :get_unit => 0.4)
-      @it.source_factories << mock('Factory', :get_unit => 0.7)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.1)
+      subject.source_factories << mock('Factory', :get_unit => 0.4)
+      subject.source_factories << mock('Factory', :get_unit => 0.7)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.1)
     end
     
     it "can wrap > 1.0 value around" do
-      @it.constrain_mode = CombinationFactory::WRAP
-      @it.source_factories << mock('Factory', :get_unit => 0.2)
-      @it.source_factories << mock('Factory', :get_unit => 0.3)
-      @it.source_factories << mock('Factory', :get_unit => 0.7)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.2)
+      subject.constrain_mode = CombinationFactory::WRAP
+      subject.source_factories << mock('Factory', :get_unit => 0.2)
+      subject.source_factories << mock('Factory', :get_unit => 0.3)
+      subject.source_factories << mock('Factory', :get_unit => 0.7)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.2)
     end
     
     it "can make value 'rebound' off boundary" do
-      @it.constrain_mode = CombinationFactory::REBOUND
-      @it.source_factories = [
+      subject.constrain_mode = CombinationFactory::REBOUND
+      subject.source_factories = [
         mock('Factory', :get_unit => 0.4),
         mock('Factory', :get_unit => 0.7)
       ]
-      @it.get_unit(:x).should be_within(MARGIN).of(0.9)
-      @it.source_factories = [
+      subject.get_unit(:x).should be_within(MARGIN).of(0.9)
+      subject.source_factories = [
         mock('Factory', :get_unit => 1.0),
         mock('Factory', :get_unit => 1.0),
         mock('Factory', :get_unit => 0.1)
       ]
-      @it.get_unit(:x).should be_within(MARGIN).of(0.1)
-      @it.source_factories = [
+      subject.get_unit(:x).should be_within(MARGIN).of(0.1)
+      subject.source_factories = [
         mock('Factory', :get_unit => 0.1),
         mock('Factory', :get_unit => 0.1)
       ]
-      @it.get_unit(:x).should be_within(MARGIN).of(0.2)
-      @it.operation = CombinationFactory::SUBTRACT
-      @it.source_factories = [
+      subject.get_unit(:x).should be_within(MARGIN).of(0.2)
+      subject.operation = CombinationFactory::SUBTRACT
+      subject.source_factories = [
         mock('Factory', :get_unit => 0.1),
         mock('Factory', :get_unit => 0.4)
       ]
-      @it.get_unit(:x).should be_within(MARGIN).of(0.3)
-      @it.source_factories = [
+      subject.get_unit(:x).should be_within(MARGIN).of(0.3)
+      subject.source_factories = [
         mock('Factory', :get_unit => 0.1),
         mock('Factory', :get_unit => 0.5),
         mock('Factory', :get_unit => 0.5)
       ]
-      @it.get_unit(:x).should be_within(MARGIN).of(0.9)
-      @it.source_factories = [
+      subject.get_unit(:x).should be_within(MARGIN).of(0.9)
+      subject.source_factories = [
         mock('Factory', :get_unit => 0.1),
         mock('Factory', :get_unit => 1.0),
         mock('Factory', :get_unit => 1.0)
       ]
-      @it.get_unit(:x).should be_within(MARGIN).of(0.1)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.1)
     end
     
   end
@@ -96,43 +96,43 @@ describe CombinationFactory do
   describe "subtraction" do
     
     it "can subtract values from source factories" do
-      @it.operation = CombinationFactory::SUBTRACT
-      @it.source_factories << mock('Factory', :get_unit => 0.7)
-      @it.source_factories << mock('Factory', :get_unit => 0.3)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.4)
-      @it.source_factories << mock('Factory', :get_unit => 0.1)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.3)
+      subject.operation = CombinationFactory::SUBTRACT
+      subject.source_factories << mock('Factory', :get_unit => 0.7)
+      subject.source_factories << mock('Factory', :get_unit => 0.3)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.4)
+      subject.source_factories << mock('Factory', :get_unit => 0.1)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.3)
     end
     
     it "can wrap < 0.0 value around" do
-      @it.operation = CombinationFactory::SUBTRACT
-      @it.constrain_mode = CombinationFactory::WRAP
-      @it.source_factories << mock('Factory', :get_unit => 0.5)
-      @it.source_factories << mock('Factory', :get_unit => 0.7)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.8)
+      subject.operation = CombinationFactory::SUBTRACT
+      subject.constrain_mode = CombinationFactory::WRAP
+      subject.source_factories << mock('Factory', :get_unit => 0.5)
+      subject.source_factories << mock('Factory', :get_unit => 0.7)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.8)
     end
     
   end
   
   describe "multiplication" do
     it "can get product of values from source factories" do
-      @it.operation = CombinationFactory::MULTIPLY
-      @it.source_factories << mock('Factory', :get_unit => 0.7)
-      @it.source_factories << mock('Factory', :get_unit => 0.5)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.35)
-      @it.source_factories << mock('Factory', :get_unit => 0.1)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.035)
+      subject.operation = CombinationFactory::MULTIPLY
+      subject.source_factories << mock('Factory', :get_unit => 0.7)
+      subject.source_factories << mock('Factory', :get_unit => 0.5)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.35)
+      subject.source_factories << mock('Factory', :get_unit => 0.1)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.035)
     end
   end
     
   describe "division" do
     it "can divide values from source factories" do
-      @it.operation = CombinationFactory::DIVIDE
-      @it.source_factories << mock('Factory', :get_unit => 0.1)
-      @it.source_factories << mock('Factory', :get_unit => 0.2)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.5) #0.1 / 0.2 = 0.5
-      @it.source_factories << mock('Factory', :get_unit => 0.9)
-      @it.get_unit(:x).should be_within(MARGIN).of(0.555) #0.5 / 0.9 = 0.5555...
+      subject.operation = CombinationFactory::DIVIDE
+      subject.source_factories << mock('Factory', :get_unit => 0.1)
+      subject.source_factories << mock('Factory', :get_unit => 0.2)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.5) #0.1 / 0.2 = 0.5
+      subject.source_factories << mock('Factory', :get_unit => 0.9)
+      subject.get_unit(:x).should be_within(MARGIN).of(0.555) #0.5 / 0.9 = 0.5555...
     end
   end
   
