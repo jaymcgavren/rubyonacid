@@ -1,9 +1,11 @@
 require 'rubyonacid/factory'
+require 'rubyonacid/random_number_generator'
 
 module RubyOnAcid
 
 #Each subsequent call subtracts or adds a random amount to a given key's value.
 class RandomWalkFactory < Factory
+  include RubyOnAcid::RandomNumberGenerator
 
   #The maximum amount to change counters by.
   attr_accessor :interval
@@ -28,11 +30,6 @@ class RandomWalkFactory < Factory
     @values[key] = 1.0 if @values[key] > 1.0
     @values[key] = 0.0 if @values[key] < 0.0
     @values[key]
-  end
-
-  private def generate_random_number
-    @random_number_generator ||= Random.new(rng_seed)
-    @random_number_generator.rand
   end
 
 end

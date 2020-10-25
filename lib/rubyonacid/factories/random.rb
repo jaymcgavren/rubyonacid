@@ -1,9 +1,11 @@
 require 'rubyonacid/factory'
+require 'rubyonacid/random_number_generator'
 
 module RubyOnAcid
 
 #Returns random numbers between the minimum and the maximum.
 class RandomFactory < Factory
+  include RubyOnAcid::RandomNumberGenerator
 
   #The numeric seed used for the random number generator.
   attr_accessor :rng_seed
@@ -18,11 +20,6 @@ class RandomFactory < Factory
   #Returns a random value between 0 and 1.
   def get_unit(key)
     generate_random_number
-  end
-
-  private def generate_random_number
-    @random_number_generator ||= Random.new(rng_seed)
-    @random_number_generator.rand
   end
 
 end
