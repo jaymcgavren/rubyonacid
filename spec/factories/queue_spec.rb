@@ -91,5 +91,20 @@ describe QueueFactory do
     end
     
   end
-  
+
+  it "repeatably assigns same input keys to same output keys if same rng_seed is used" do
+    factory_1 = QueueFactory.new(rng_seed: 33)
+    factory_2 = QueueFactory.new(rng_seed: 33)
+    factory_1.put(:a, 0.1)
+    factory_1.put(:b, 0.2)
+    factory_1.put(:c, 0.3)
+    factory_2.put(:a, 0.1)
+    factory_2.put(:b, 0.2)
+    factory_2.put(:c, 0.3)
+    factory_1.get(:x).should == factory_2.get(:x)
+    factory_1.get(:y).should == factory_2.get(:y)
+    factory_1.get(:z).should == factory_2.get(:z)
+  end
+
+
 end
