@@ -17,4 +17,11 @@ describe RandomFactory do
     subject.get_unit(:x).should_not == subject.get_unit(:x)
   end
   
+  it "new instances produce the same output if given same random number generator seed" do
+    factory_1 = RandomFactory.new(rng_seed: 42)
+    factory_2 = RandomFactory.new(rng_seed: 42)
+    factory_1.get_unit(:x).should be_within(0.0001).of(factory_2.get_unit(:x))
+    factory_1.get_unit(:x).should be_within(0.0001).of(factory_2.get_unit(:x))
+  end
+  
 end
