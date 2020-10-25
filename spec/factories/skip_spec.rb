@@ -19,6 +19,13 @@ describe SkipFactory do
       [0, 1].should include(subject.get_unit(:x))
     end
   end
-  
+
+  it "new instances produce the same output if given same random number generator seed" do
+    factory_1 = SkipFactory.new(rng_seed: 11)
+    factory_2 = SkipFactory.new(rng_seed: 11)
+    10.times do
+      factory_1.get_unit(:x).should == factory_2.get_unit(:x)
+    end
+  end
   
 end
