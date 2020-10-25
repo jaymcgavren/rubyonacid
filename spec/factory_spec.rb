@@ -60,11 +60,11 @@ describe Factory do
   describe "#source_factories" do
     
     it "calls #get_unit on each and averages results" do
-      factory1 = mock('Factory')
+      factory1 = double('Factory')
       subject.source_factories << factory1
-      factory2 = mock('Factory')
+      factory2 = double('Factory')
       subject.source_factories << factory2
-      factory3 = mock('Factory')
+      factory3 = double('Factory')
       subject.source_factories << factory3
       factory1.should_receive(:get_unit).and_return(0.1)
       factory2.should_receive(:get_unit).and_return(0.2)
