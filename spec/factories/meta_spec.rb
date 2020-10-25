@@ -14,8 +14,8 @@ describe MetaFactory do
   describe "general behavior" do
   
     before :each do
-      subject.source_factories << mock('Factory', :get_unit => 0.2)
-      subject.source_factories << mock('Factory', :get_unit => 0.1)
+      subject.source_factories << double('Factory', :get_unit => 0.2)
+      subject.source_factories << double('Factory', :get_unit => 0.1)
     end
   
     it_should_behave_like "a factory"
@@ -24,8 +24,8 @@ describe MetaFactory do
   
   
   it "takes a list of factories, then randomly and permanently assigns a factory to each requested key" do
-    subject.source_factories << mock('FactoryZero', :get_unit => 0.0)
-    subject.source_factories << mock('FactoryOne', :get_unit => 1.0)
+    subject.source_factories << double('FactoryZero', :get_unit => 0.0)
+    subject.source_factories << double('FactoryOne', :get_unit => 1.0)
     ('a'..'z').each do |key|
       subject.get_unit(key.to_sym).should == subject.get_unit(key.to_sym)
     end

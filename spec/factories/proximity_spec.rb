@@ -13,7 +13,7 @@ describe ProximityFactory do
   describe "general behavior" do
   
     before :each do
-      subject.source_factories << mock('Factory', :get_unit => 0.2)
+      subject.source_factories << double('Factory', :get_unit => 0.2)
     end
   
     it_should_behave_like "a factory"
@@ -22,7 +22,7 @@ describe ProximityFactory do
   
   describe "#get_unit" do
     it "requests value from the source factory and scales it based on its proximity to the target value" do
-      source_factory = mock('Factory')
+      source_factory = double('Factory')
       subject.source_factories << source_factory
       subject.target = 0.5
       source_factory.should_receive(:get_unit).with(:x).and_return(0.5)
@@ -33,7 +33,7 @@ describe ProximityFactory do
     end
     
     it "should return 1.0 if source value matches target exactly" do
-      source_factory = mock('Factory')
+      source_factory = double('Factory')
       subject.source_factories << source_factory
       subject.target = 0.5
       source_factory.should_receive(:get_unit).with(:x).and_return(0.5)
@@ -41,7 +41,7 @@ describe ProximityFactory do
     end
     
     it "should approach zero as distance approaches 1.0" do
-      source_factory = mock('Factory')
+      source_factory = double('Factory')
       subject.source_factories << source_factory
       subject.target = 1.0
       source_factory.should_receive(:get_unit).with(:x).and_return(0.0)

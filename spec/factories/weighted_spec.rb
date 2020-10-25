@@ -13,8 +13,8 @@ describe WeightedFactory do
   describe "general behavior" do
   
     before :each do
-      subject.source_factories << mock('Factory', :get_unit => 0.2)
-      subject.source_factories << mock('Factory', :get_unit => 0.3)
+      subject.source_factories << double('Factory', :get_unit => 0.2)
+      subject.source_factories << double('Factory', :get_unit => 0.3)
     end
   
     it_should_behave_like "a factory"
@@ -24,8 +24,8 @@ describe WeightedFactory do
   describe "#get_unit" do
       
     it "gives factories with higher weights more influence" do
-      factory1 = mock('Factory', :get_unit => 0.25)
-      factory2 = mock('Factory', :get_unit => 0.75)
+      factory1 = double('Factory', :get_unit => 0.25)
+      factory2 = double('Factory', :get_unit => 0.75)
       subject.source_factories << factory1
       subject.source_factories << factory2
       subject.get_unit(:x).should be_within(MARGIN).of(0.5)
@@ -35,8 +35,8 @@ describe WeightedFactory do
     end
   
     it "multiplies factory values by weights when averaging" do
-      factory1 = mock('Factory', :get_unit => 0.2)
-      factory2 = mock('Factory', :get_unit => 0.4)
+      factory1 = double('Factory', :get_unit => 0.2)
+      factory2 = double('Factory', :get_unit => 0.4)
       subject.source_factories << factory1
       subject.source_factories << factory2
       subject.get_unit(:x).should be_within(MARGIN).of(0.3)
@@ -48,9 +48,9 @@ describe WeightedFactory do
     end
     
     it "can handle 3 or more factories" do
-      factory1 = mock('Factory', :get_unit => 0.2)
-      factory2 = mock('Factory', :get_unit => 0.4)
-      factory3 = mock('Factory', :get_unit => 0.8)
+      factory1 = double('Factory', :get_unit => 0.2)
+      factory2 = double('Factory', :get_unit => 0.4)
+      factory3 = double('Factory', :get_unit => 0.8)
       subject.source_factories << factory1
       subject.source_factories << factory2
       subject.source_factories << factory3

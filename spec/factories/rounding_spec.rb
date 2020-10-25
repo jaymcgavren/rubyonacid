@@ -13,7 +13,7 @@ describe RoundingFactory do
   describe "general behavior" do
   
     before :each do
-      subject.source_factories << mock('Factory', :get_unit => 0.2)
+      subject.source_factories << double('Factory', :get_unit => 0.2)
     end
   
     it_should_behave_like "a factory"
@@ -21,7 +21,7 @@ describe RoundingFactory do
   end
   
   it "Requests a value from the source factory and rounds it to a multiple of the requested number" do
-    source_factory = mock('Factory')
+    source_factory = double('Factory')
     subject.source_factories << source_factory
     subject.nearest = 0.3
     source_factory.should_receive(:get_unit).and_return(0.7)
@@ -35,7 +35,7 @@ describe RoundingFactory do
   end
   
   it "can round to multiples of 0.2" do
-    source_factory = mock('Factory')
+    source_factory = double('Factory')
     subject.source_factories << source_factory
     subject.nearest = 0.2
     source_factory.should_receive(:get_unit).and_return(0.0)
@@ -51,7 +51,7 @@ describe RoundingFactory do
   end
   
   it "can round to multiples of 1.0" do
-    source_factory = mock('Factory')
+    source_factory = double('Factory')
     subject.source_factories << source_factory
     subject.nearest = 1.0
     source_factory.should_receive(:get_unit).and_return(0.0)

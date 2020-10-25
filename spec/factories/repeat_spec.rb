@@ -9,7 +9,7 @@ describe RepeatFactory do
   describe "general behavior" do
   
     before :each do
-      subject.source_factories << mock('Factory', :get_unit => 0.2)
+      subject.source_factories << double('Factory', :get_unit => 0.2)
     end
   
     it_should_behave_like "a factory"
@@ -21,7 +21,7 @@ describe RepeatFactory do
   end
   
   it "Requests a value from the source factory and repeats it a given number of times" do
-    source_factory = mock('Factory')
+    source_factory = double('Factory')
     source_factory.should_receive(:get_unit).exactly(3).times.and_return(0.0, 1.0, 0.5)
     subject.source_factories << source_factory
     subject.repeat_count = 2
@@ -33,7 +33,7 @@ describe RepeatFactory do
   end
   
   it "Tracks repeats on a per-key basis" do
-    source_factory = mock('Factory')
+    source_factory = double('Factory')
     source_factory.should_receive(:get_unit).exactly(4).times.and_return(0.0, 1.0, 0.5, 0.75)
     subject.source_factories << source_factory
     subject.repeat_count = 2

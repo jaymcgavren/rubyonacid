@@ -14,7 +14,7 @@ describe LissajousFactory do
   describe "general behavior" do
   
     before :each do
-      subject.source_factories << mock('Factory', :get_unit => 0.2)
+      subject.source_factories << double('Factory', :get_unit => 0.2)
     end
   
     it_should_behave_like "a factory"

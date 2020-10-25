@@ -38,8 +38,8 @@ describe RindaFactory do
   
   it "gets keys from a backup factory when it cannot retrieve values via Rinda" do
     subject.start_service
-    default_factory = mock('Factory')
-    default_factory.stub!(:get_unit).and_return(0.74)
+    default_factory = double('Factory')
+    expect(default_factory).to receive(:get_unit).and_return(0.74)
     subject.source_factories << default_factory
     subject.get_unit(:a).should == 0.74
   end
