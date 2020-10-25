@@ -24,6 +24,13 @@ describe RandomWalkFactory do
     values[2].should be_within(0.01).of(values[1])
   end
   
+  it "new instances produce the same output if given same random number generator seed" do
+    factory_1 = RandomWalkFactory.new(rng_seed: 42)
+    factory_2 = RandomWalkFactory.new(rng_seed: 42)
+    factory_1.get_unit(:x).should be_within(0.0001).of(factory_2.get_unit(:x))
+    factory_1.get_unit(:x).should be_within(0.0001).of(factory_2.get_unit(:x))
+  end
+  
   it "adds random amount within given interval to source factories result if source factories are assigned"
   
 end
