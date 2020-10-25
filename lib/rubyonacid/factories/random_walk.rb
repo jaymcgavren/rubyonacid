@@ -7,6 +7,8 @@ class RandomWalkFactory < Factory
 
   #The maximum amount to change counters by.
   attr_accessor :interval
+  #The numeric seed used for the random number generator.
+  attr_accessor :rng_seed
   
   #Takes a hash with all keys supported by Factory, plus these keys and defaults:
   #  :interval => 0.001
@@ -16,7 +18,7 @@ class RandomWalkFactory < Factory
     @start_value = 0.0
     @values = {}
     @interval = options[:interval] || 0.001
-    @rng = Random.new(options[:rng_seed] || Random.new_seed)
+    @rng_seed = options[:rng_seed] || Random.new_seed
   end
   
   #Add a random amount ranging between interval and -1 * interval to the given key's value and return the new value.
@@ -29,7 +31,8 @@ class RandomWalkFactory < Factory
   end
 
   private def generate_random_number
-    @rng.rand
+    @random_number_generator ||= Random.new(rng_seed)
+    @random_number_generator.rand
   end
 
 end
