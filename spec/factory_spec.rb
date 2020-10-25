@@ -13,44 +13,44 @@ describe Factory do
   describe "#choose" do
     
     it "chooses an item from a list" do
-      subject.stub!(:get_unit).and_return(0.0)
+      expect(subject).to receive(:get_unit).and_return(0.0)
       subject.choose(:color, :red, :green, :blue).should == :red
-      subject.stub!(:get_unit).and_return(1.0)
+      expect(subject).to receive(:get_unit).and_return(1.0)
       subject.choose(:color, :red, :green, :blue).should == :blue
-      subject.stub!(:get_unit).and_return(0.5)
+      expect(subject).to receive(:get_unit).and_return(0.5)
       subject.choose(:color, :red, :green, :blue).should == :green
     end
     
     it "matches a range of values for each list item" do
-      subject.stub!(:get_unit).and_return(0.0)
+      expect(subject).to receive(:get_unit).and_return(0.0)
       subject.choose(:foo, :a, :b, :c, :d).should == :a
-      subject.stub!(:get_unit).and_return(0.24)
+      expect(subject).to receive(:get_unit).and_return(0.24)
       subject.choose(:foo, :a, :b, :c, :d).should == :a
-      subject.stub!(:get_unit).and_return(0.25)
+      expect(subject).to receive(:get_unit).and_return(0.25)
       subject.choose(:foo, :a, :b, :c, :d).should == :b
-      subject.stub!(:get_unit).and_return(0.49)
+      expect(subject).to receive(:get_unit).and_return(0.49)
       subject.choose(:foo, :a, :b, :c, :d).should == :b
-      subject.stub!(:get_unit).and_return(0.5)
+      expect(subject).to receive(:get_unit).and_return(0.5)
       subject.choose(:foo, :a, :b, :c, :d).should == :c
-      subject.stub!(:get_unit).and_return(0.74)
+      expect(subject).to receive(:get_unit).and_return(0.74)
       subject.choose(:foo, :a, :b, :c, :d).should == :c
-      subject.stub!(:get_unit).and_return(0.75)
+      expect(subject).to receive(:get_unit).and_return(0.75)
       subject.choose(:foo, :a, :b, :c, :d).should == :d
-      subject.stub!(:get_unit).and_return(1.0)
+      expect(subject).to receive(:get_unit).and_return(1.0)
       subject.choose(:foo, :a, :b, :c, :d).should == :d
     end
     
     it "accepts multiple arguments" do
-      subject.stub!(:get_unit).and_return(1.0)
+      expect(subject).to receive(:get_unit).and_return(1.0)
       subject.choose(:color, :red, :green, :blue).should == :blue
     end
     
     it "accepts arrays" do
-      subject.stub!(:get_unit).and_return(1.0)
+      expect(subject).to receive(:get_unit).and_return(1.0)
       subject.choose(:color, [:red, :green, :blue]).should == :blue
-      subject.stub!(:get_unit).and_return(1.0)
+      expect(subject).to receive(:get_unit).and_return(1.0)
       subject.choose(:color, [:red, :green, :blue], [:yellow, :orange]).should == :orange
-      subject.stub!(:get_unit).and_return(0.0)
+      expect(subject).to receive(:get_unit).and_return(0.0)
       subject.choose(:color, [:red, :green, :blue], [:yellow, :orange]).should == :red
     end
     
