@@ -39,7 +39,7 @@ h1. Writing Your Own Factories
 
 Making new factories is easy - simply make a subclass of RubyOnAcid::Factory.  Then write a get_unit() method that takes a key and returns a value between 0 and 1.
 
-For example, here's the entire code for the bundled RandomFactory class:
+For example, here's the entire code for the (original) bundled RandomFactory class:
 
 <pre>
   class RandomFactory < RubyOnAcid::Factory
