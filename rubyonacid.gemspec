@@ -4,7 +4,7 @@ require "rubyonacid/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "rubyonacid"
-  spec.version       = Rubyonacid::VERSION
+  spec.version       = RubyOnAcid::VERSION
   spec.authors       = ["Jay McGavren"]
   spec.email         = ["jay@mcgavren.com"]
 
