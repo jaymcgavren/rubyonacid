@@ -4,14 +4,20 @@ module RubyOnAcid
 
 #Allows values to be assigned from an external source, storing values over time.
 class QueueFactory < Factory
-
-  #Takes a hash with all keys supported by Factory.
-  def initialize
+  include RubyOnAcid::RandomNumberGenerator
+  
+  #The numeric seed used for the random number generator.
+  attr_accessor :rng_seed
+  
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :rng_seed => Random.new_seed
+  def initialize(options = {})
     super
     @queue_values = {}
     @key_assignments = {}
     @largest_seen_values = {}
     @smallest_seen_values = {}
+    @rng_seed = options[:rng_seed] || Random.new_seed
   end
   
   #Retrieves the next stored value for the given key.
@@ -55,7 +61,10 @@ class QueueFactory < Factory
     def assigned_key(key)
       return @key_assignments[key] if @key_assignments[key]
       key_pool = @queue_values.keys - @key_assignments.values
-      @key_assignments[key] = key_pool[rand(key_pool.length)]
+      #If no unassigned keys available, return nil.
+      return nil if key_pool.empty?
+      random_index = generate_random_number(key_pool.length)
+      @key_assignments[key] = key_pool[random_index]
       @key_assignments[key]
     end
     

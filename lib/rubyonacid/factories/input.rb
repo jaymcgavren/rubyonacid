@@ -1,19 +1,26 @@
 require 'rubyonacid/factory'
+require 'rubyonacid/random_number_generator'
 
 module RubyOnAcid
 
 #Allows a single value at a time to be assigned from an external source.
 class InputFactory < Factory
+  include RubyOnAcid::RandomNumberGenerator
 
-  #Takes a hash with all keys supported by Factory.
-  def initialize
+  #The numeric seed used for the random number generator.
+  attr_accessor :rng_seed
+
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :rng_seed => Random.new_seed
+  def initialize(options = {})
     super
     @input_values = {}
     @key_assignments = {}
     @largest_seen_values = {}
     @smallest_seen_values = {}
+    @rng_seed = options[:rng_seed] || Random.new_seed
   end
-  
+
   #Retrieves stored value for the given key.
   #The key that values are pulled from will not necessarily be the same as that passed to put() - value input keys are assigned to get_unit() keys at random.
   #Retrieve average from source factories if no queued values are available, or zero if no source factories are assigned.
@@ -71,7 +78,8 @@ class InputFactory < Factory
       if available_keys.include?(key)
         @key_assignments[key] = key
       else
-        @key_assignments[key] = available_keys[rand(available_keys.length)]
+        random_index = generate_random_number(available_keys.length)
+        @key_assignments[key] = available_keys[random_index]
       end
       @key_assignments[key]
     end
