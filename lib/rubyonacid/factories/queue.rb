@@ -1,4 +1,5 @@
 require 'rubyonacid/factory'
+require 'rubyonacid/random_number_generator'
 
 module RubyOnAcid
 
