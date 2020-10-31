@@ -1,21 +1,27 @@
 require 'rubyonacid/factories/all'
+require 'rubyonacid/random_number_generator'
 
 module RubyOnAcid
 
 #A preconfigured factory with all the bells and whistles.
 #Use this if you want to get up and running quickly and don't need to tweak the settings.
 class ExampleFactory < MetaFactory
+  include RubyOnAcid::RandomNumberGenerator
 
-  
-  #Takes a hash with all keys supported by Factory.
+  #The numeric seed used for the random number generator.
+  attr_accessor :rng_seed
+
+  #Takes a hash with all keys supported by Factory, plus these keys and defaults:
+  #  :rng_seed => Random.new_seed
   def initialize(options = {})
     super
+    @rng_seed = options[:rng_seed] || Random.new_seed
     self.source_factories = generate_factories
   end
 
   def generate_factories
     
-    random_factory = RubyOnAcid::RandomFactory.new
+    random_factory = RubyOnAcid::RandomFactory.new(rng_seed: rng_seed)
 
     factories = []
     
@@ -39,7 +45,8 @@ class ExampleFactory < MetaFactory
       )
     end
     factories << RubyOnAcid::RandomWalkFactory.new(
-      :interval => random_factory.get(:interval, :max => 0.1)
+      :interval => random_factory.get(:interval, :max => 0.1),
+      :rng_seed => rng_seed
     )
     4.times do
       factory = RubyOnAcid::SineFactory.new
@@ -78,7 +85,7 @@ class ExampleFactory < MetaFactory
     2.times do
       source_factory = random_element(factories)
       weighted_factory.source_factories << source_factory
-      weighted_factory.weights[source_factory] = rand
+      weighted_factory.weights[source_factory] = generate_random_number
     end
     factories << weighted_factory
     proximity_factory = RubyOnAcid::ProximityFactory.new
@@ -101,7 +108,7 @@ end
   private
     
     def random_element(array)
-      array[rand(array.length)]
+      array[generate_random_number(array.length)]
     end
 
 
